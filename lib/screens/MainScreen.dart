@@ -1,0 +1,75 @@
+import 'package:flutter/material.dart';
+import '../screens/HomePage.dart';
+import '../screens/MyCoursePage.dart';
+import '../screens/MyAccount.dart';
+// ignore: import_of_legacy_library_into_null_safe
+import 'package:flutter_icons/flutter_icons.dart';
+class MainScreen extends StatefulWidget {
+  @override
+  _MainScreenState createState() => _MainScreenState();
+}
+
+class _MainScreenState extends State<MainScreen> {
+  int _selectedIndex = 0;
+
+  List<Widget> _widgetOptions = <Widget>[
+    HomePage(),
+    MyCoursePage(),
+    MyAccountPage(),
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.white,
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: _selectedIndex,
+        showSelectedLabels: true,
+        showUnselectedLabels: true,
+        items: [
+          BottomNavigationBarItem(
+            icon: Icon(
+              Feather.home,
+              color: Colors.lightBlue,
+            ),
+            label: 'Home',
+            activeIcon: Icon(
+              Feather.home,
+              color: Colors.lightGreenAccent,
+            ),
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(
+              FontAwesome.calendar,
+              color: Colors.lightBlue,
+            ),
+            label: ('My Course'),
+            activeIcon: Icon(
+              FontAwesome.calendar,
+              color: Colors.lightGreenAccent,
+            ),
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(
+              EvilIcons.user,
+              color: Colors.lightBlue,
+              size: 36,
+            ),
+            label: ('My Account'),
+            activeIcon: Icon(
+              EvilIcons.user,
+              color: Colors.lightGreenAccent,
+              size: 36,
+            ),
+          ),
+        ],
+        onTap: (index) {
+          setState(() {
+            _selectedIndex = index;
+          });
+        },
+      ),
+      body: _widgetOptions.elementAt(_selectedIndex),
+    );
+  }
+}
