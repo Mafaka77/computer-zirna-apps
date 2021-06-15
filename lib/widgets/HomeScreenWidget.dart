@@ -1,46 +1,84 @@
 import 'package:flutter/material.dart';
 import '../widgets/CourseWidget.dart';
-import '../models/course.dart';
+import 'dart:async';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 
-// ignore: import_of_legacy_library_into_null_safe
+
 import 'package:carousel_pro/carousel_pro.dart';
 
-class HomeScreenWidget extends StatelessWidget {
-  final List<Course> courseList = [
-    Course(
-        id: '1',
-        name: 'DCA',
-        details: 'DCA course is for 6 months',
-        imageUrl:
-            'https://www.freecodecamp.org/news/content/images/2020/03/illustration_cover.png',
-        price: '6000',
-        vidUrl: 'https://www.youtube.com/watch?v=5mFTXbZzOAE'),
-    Course(
-        id: '2',
-        name: 'CCC',
-        details: 'CCC is for 3 Months',
-        imageUrl:
-            'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRwgWVgzEpNo6FVTWvlowZngttxRheolOynDQ&usqp=CAU',
-        price: '5000',
-        vidUrl: 'https://www.youtube.com/watch?v=1cALsSfROiE'),
-    Course(
-        id: '3',
-        name: 'Office Automation',
-        details: 'THis is for 6 months course',
-        imageUrl:
-            'https://www.futurity.org/wp/wp-content/uploads/2020/06/quantum-computer-programming-language-silq_1600.jpg',
-        price: '5000',
-        vidUrl: 'https://www.youtube.com/watch?v=MuB7HHeuNbc'),
-    Course(
-        id: '4',
-        name: 'Tally',
-        details: 'Tally is for 4 months',
-        imageUrl:
-            'https://resources.tallysolutions.com/us/wp-content/uploads/2020/11/Website-logo.jpg',
-        price: '4000',
-        vidUrl: 'https://www.youtube.com/watch?v=p54r-ZoCVq4'),
-  ];
+// Future<List<Data>> fetchData() async {
+//   var url=Uri.parse('http://computerzirna.in/api/courses/index');
+//   final String token='QflupvUSNdlPWJU3tZTbWFji5ExC6faRSO7Gxqxy';
+//   final response = await http.get(url,headers: {
+//     'Content-Type': 'application/json',
+//     'Accept': 'application/json',
+//     'Authorization': 'Bearer $token',
+//   });
+//   if (response.statusCode == 200) {
+//     List jsonResponse = json.decode(response.body);
+//     return jsonResponse.map((data) => new Data.fromJson(data)).toList();
+//   } else {
+//     throw Exception('Unexpected error occured!');
+//   }
+// }
 
+class Data {
+  final int id;
+  final String name;
+  final String description;
+  final int price;
+  final String intro_url;
+  final String thumbnail_url;
+
+  Data(
+this.id,
+ this.name,
+ this.description,
+ this.intro_url,
+ this.price,
+   this.thumbnail_url
+  );
+
+//  Data.fromJson(Map<String, dynamic> json) {
+//   return Data(
+//       id: json['id'],
+//     name: json['name'],
+//     description: json['description'],
+//     price: json['price'],
+//       intro_url: json['intro_url'],
+//     thumbnail_url: json['thumbnail_url'],
+//   )
+// }
+}
+
+class HomeScreenWidget extends StatefulWidget {
+  const HomeScreenWidget({Key? key}) : super(key: key);
+
+  @override
+  _HomeScreenWidgetState createState() => _HomeScreenWidgetState();
+}
+
+class _HomeScreenWidgetState extends State<HomeScreenWidget> {
+  Future<List<Data>> _courseList() async {
+    final String token = 'QflupvUSNdlPWJU3tZTbWFji5ExC6faRSO7Gxqxy';
+    // await Future.delayed(Duration(seconds: 10));
+    var url = Uri.parse('http://computerzirna.in/api/courses/index');
+    var data = await http.get(url, headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      'Authorization': 'Bearer $token',
+    });
+    var jsonData = json.decode(data.body)['data'];
+    List<Data> course = [];
+    for (var u in jsonData) {
+      Data da = Data(u['id'], u['name'], u['description'], u['intro_url'],
+          u['price'], u['thumbnail_url']);
+      course.add(da);
+    }
+    print('course');
+    return course;
+  }
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -48,17 +86,23 @@ class HomeScreenWidget extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SizedBox(
-              height: 250.0,
-              width: 500.0,
-              child: Carousel(
-                images: [
-                  NetworkImage(
-                      'https://www.herzing.edu/sites/default/files/styles/fp_960_480/public/2020-09/it_computer_programming.jpg?h=b3660f0d&itok=ta1LXhcI'),
-                  NetworkImage(
-                      'https://cdn.britannica.com/30/199930-131-B3D1D347/computer.jpg'),
-                ],
-              )),
+          Container(
+            color: Colors.greenAccent,
+
+            child: SizedBox(
+                height: 200.0,
+                width: 500.0,
+                child: Carousel(
+                  animationCurve: Curves.fastOutSlowIn,
+                  showIndicator: false,
+                  boxFit: BoxFit.contain,
+                  images: [
+                    NetworkImage('https://image.flaticon.com/icons/png/512/1792/1792525.png'),
+                    NetworkImage('https://image.flaticon.com/icons/png/512/3721/3721186.png')
+                  ],
+                ),
+            ),
+          ),
           Container(
             margin: new EdgeInsets.only(top: 10),
             child: Text(
@@ -68,38 +112,58 @@ class HomeScreenWidget extends StatelessWidget {
           ),
           Container(
             width: 500,
-            height: 5,
+            height: 3,
             color: Colors.redAccent,
           ),
           Container(
               margin: new EdgeInsets.only(top: 10),
-              child: GridView.builder(
-                shrinkWrap: true,
-                physics: NeverScrollableScrollPhysics(),
-                itemCount: courseList.length,
-                itemBuilder: (ctx, i) => CourseWidget(
-                    courseList[i].id,
-                    courseList[i].name,
-                    courseList[i].details,
-                    courseList[i].imageUrl,
-                    courseList[i].price,
-                    courseList[i].vidUrl),
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    childAspectRatio: 3 / 2,
-                    crossAxisSpacing: 10,
-                    mainAxisSpacing: 10),
+              child:  FutureBuilder(
+                future: _courseList(),
+                builder: (BuildContext context, AsyncSnapshot snapshot) {
+                  print(snapshot);
+                  // var data=snapshot.data!;
+                  if (snapshot.hasData) {
+                    return Container(
+                      height: 270,
+                      child: GridView.builder(
+                        physics: NeverScrollableScrollPhysics(),
+                        shrinkWrap: true,
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2,
+                            childAspectRatio: 3 / 2,
+                            crossAxisSpacing: 10,
+                            mainAxisSpacing: 10),
+                        itemCount: snapshot.data.length,
+                          itemBuilder: (BuildContext context,int index){
+                            return Container(
+                              child: CourseWidget(
+                                snapshot.data[index].id,
+                                snapshot.data[index].name,
+                                snapshot.data[index].description,
+                                snapshot.data[index].intro_url,
+                                snapshot.data[index].price,
+                                snapshot.data[index].thumbnail_url,
+                              ),
+                            );
+                          }
+
+                      ),
+                    );
+                  }else if(snapshot.hasError){
+                    return Center(child: Text('No Data'),);
+                  }return Center(child: CircularProgressIndicator(),);
+                },
               )),
           Container(
             margin: EdgeInsets.only(top: 10),
             child: Text(
-              'Sample Videos',
+              'Promo Videos',
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
           ),
           Container(
             margin: EdgeInsets.only(top: 10),
-            height: 5,
+            height: 3,
             width: 500,
             color: Colors.amberAccent,
           ),

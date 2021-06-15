@@ -6,12 +6,13 @@ import '../models/subject.dart';
 import '../widgets/CourseDetailWidget.dart';
 
 class CourseDetailScreen extends StatefulWidget {
-  final String id;
-  final String price;
-  final String details;
-  final String vidUrl;
+  final int id;
+  final String name;
+  final int price;
+  final String description;
+  final String intro_url;
 
-  const CourseDetailScreen(this.id, this.price, this.details, this.vidUrl);
+  CourseDetailScreen(this.id,this.name, this.price, this.description, this.intro_url);
 
   _CourseDetailState createState() => _CourseDetailState();
 }
@@ -30,33 +31,33 @@ class _CourseDetailState extends State<CourseDetailScreen> {
   // final List<String> _ids = [
   //  vidUrl,
   // ];
-  final List<Subject> sub = [
-    Subject(
-        id: '1',
-        subName: 'Microsoft Word',
-        subDetails: 'A dik vek e',
-        vidUrl: 'https://www.youtube.com/watch?v=p54r-ZoCVq4',
-        courseId: '1',
-        courseName: 'DCA'),
-    Subject(
-        id: '2',
-        subName: 'Microsoft Excel',
-        subDetails: 'A dik vek e',
-        vidUrl: 'https://www.youtube.com/watch?v=p54r-ZoCVq4',
-        courseId: '1',
-        courseName: 'DCA'),
-    Subject(
-        id: '3',
-        subName: 'Microsoft Power Point',
-        subDetails: 'A dik vek e',
-        vidUrl: 'https://www.youtube.com/watch?v=p54r-ZoCVq4',
-        courseId: '1',
-        courseName: 'DCA'),
-  ];
+  // final List<Subject> sub = [
+  //   Subject(
+  //       id: '1',
+  //       subName: 'Microsoft Word',
+  //       subDetails: 'A dik vek e',
+  //       vidUrl: 'https://www.youtube.com/watch?v=p54r-ZoCVq4',
+  //       courseId: '1',
+  //       courseName: 'DCA'),
+  //   Subject(
+  //       id: '2',
+  //       subName: 'Microsoft Excel',
+  //       subDetails: 'A dik vek e',
+  //       vidUrl: 'https://www.youtube.com/watch?v=p54r-ZoCVq4',
+  //       courseId: '1',
+  //       courseName: 'DCA'),
+  //   Subject(
+  //       id: '3',
+  //       subName: 'Microsoft Power Point',
+  //       subDetails: 'A dik vek e',
+  //       vidUrl: 'https://www.youtube.com/watch?v=p54r-ZoCVq4',
+  //       courseId: '1',
+  //       courseName: 'DCA'),
+  // ];
   @override
   void initState() {
     var vidID;
-    vidID = YoutubePlayer.convertUrlToId(widget.vidUrl);
+    vidID = YoutubePlayer.convertUrlToId(widget.intro_url);
 
     super.initState();
     _controller = YoutubePlayerController(
@@ -136,11 +137,11 @@ class _CourseDetailState extends State<CourseDetailScreen> {
       ),
       builder: (context, player) => Scaffold(
         appBar: AppBar(
-          title: Text(widget.id),
+          title: Text('hello'),
         ),
         body: SingleChildScrollView(
           child: Container(
-            margin: EdgeInsets.all(10),
+            margin: EdgeInsets.all(15),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -148,7 +149,7 @@ class _CourseDetailState extends State<CourseDetailScreen> {
                 Container(
                   margin: EdgeInsets.only(top: 10),
                   child: Text(
-                    widget.price,
+                    '₹  ${widget.price.toString()}',
                     style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
                   ),
                 ),
@@ -184,7 +185,7 @@ class _CourseDetailState extends State<CourseDetailScreen> {
                 ),
                 Container(
                   margin: EdgeInsets.only(top: 10),
-                  child: Text(widget.details),
+                  child: Text(widget.description),
                 ),
                 Container(
                   margin: EdgeInsets.only(top: 10),
@@ -199,16 +200,16 @@ class _CourseDetailState extends State<CourseDetailScreen> {
                   height: 5,
                   color: Colors.blueAccent,
                 ),
-                Container(
-                  margin: EdgeInsets.only(top: 10),
-                  child:ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: sub.length,
-                    physics: NeverScrollableScrollPhysics(),
-                    itemBuilder: (c, i) =>
-                        CourseDetailWidget(sub[i].subName, sub[i].subDetails),
-                  ),
-                )
+                // Container(
+                //   margin: EdgeInsets.only(top: 10),
+                //   child:ListView.builder(
+                //     shrinkWrap: true,
+                //     itemCount: sub.length,
+                //     physics: NeverScrollableScrollPhysics(),
+                //     itemBuilder: (c, i) =>
+                //         CourseDetailWidget(sub[i].subName, sub[i].subDetails),
+                //   ),
+                // )
               ],
             ),
           ),

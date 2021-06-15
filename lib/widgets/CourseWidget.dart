@@ -2,14 +2,13 @@ import 'package:flutter/material.dart';
 import '../screens/CourseDetailScreen.dart';
 import '../screens/CourseDetails.dart';
 class CourseWidget extends StatelessWidget {
-  final String id;
+  final int id;
   final String name;
-  final String details;
-  final String imageUrl;
-  final String price;
-  final String vidUrl;
-
-  CourseWidget(this.id, this.name, this.details, this.imageUrl,this.price,this.vidUrl);
+  final String description;
+  final int price;
+ final String intro_url;
+ final String thumbnail_url;
+  CourseWidget(this.id, this.name, this.description,this.intro_url,this.price,this.thumbnail_url);
 
   @override
   Widget build(BuildContext context) {
@@ -17,10 +16,10 @@ class CourseWidget extends StatelessWidget {
       child: GestureDetector(
         onTap: () {
           Navigator.of(context).push(
-              MaterialPageRoute(builder: (ctx) => CourseDetailScreen(id,price,details,vidUrl)));
+              MaterialPageRoute(builder: (ctx) => CourseDetailScreen(id,name,price,description,intro_url)));
         },
         child: Image.network(
-          imageUrl,
+          intro_url,
           fit: BoxFit.cover,
         ),
       ),
