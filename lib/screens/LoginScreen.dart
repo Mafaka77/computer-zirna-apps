@@ -63,13 +63,14 @@ class _LoginState extends State<Login> {
     );
   }
   void sendOtp() async{
-    var url=Uri.parse('http://computerzirna.in/api/auth/otp/send');
+    String mob=this.phoneNumber;
+    var url=Uri.parse('http://computerzirna.in/api/auth/otp/send?phone_no=$mob');
     // Map data={'phone':this.phoneNumber};
     // var body=jsonEncode(data);
-
-    var response=await http.get(url,headers: {"authkey": "template_id"},);
-    // ignore: unrelated_type_equality_checks
-    if(response.statusCode=='Otp sent'){
+  print(url);
+    var response=await http.get(url,headers: {HttpHeaders.contentTypeHeader:'Application/json'});
+    //print(response);
+    if(response.statusCode==200){
       var decode=jsonDecode(response.body);
       Navigator.push(context, MaterialPageRoute(builder: (builder){
           return VerifyOtp(

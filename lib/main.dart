@@ -2,7 +2,7 @@
 import 'package:computer_zirna/screens/MainScreen.dart';
 import 'package:flutter/material.dart';
 import 'screens/LoginScreen.dart';
-
+import 'screens/VerifyOtpScreen.dart';
 import './screens/MainScreen.dart';
 void main() {
   runApp(MyApp());
@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home:MainScreen()
+      home:VerifyOtp()
     );
   }
 }
