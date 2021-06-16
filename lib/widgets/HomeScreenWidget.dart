@@ -7,22 +7,6 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 import 'package:carousel_pro/carousel_pro.dart';
 
-// Future<List<Data>> fetchData() async {
-//   var url=Uri.parse('http://computerzirna.in/api/courses/index');
-//   final String token='QflupvUSNdlPWJU3tZTbWFji5ExC6faRSO7Gxqxy';
-//   final response = await http.get(url,headers: {
-//     'Content-Type': 'application/json',
-//     'Accept': 'application/json',
-//     'Authorization': 'Bearer $token',
-//   });
-//   if (response.statusCode == 200) {
-//     List jsonResponse = json.decode(response.body);
-//     return jsonResponse.map((data) => new Data.fromJson(data)).toList();
-//   } else {
-//     throw Exception('Unexpected error occured!');
-//   }
-// }
-
 class Data {
   final int id;
   final String name;
@@ -31,14 +15,8 @@ class Data {
   final String intro_url;
   final String thumbnail_url;
 
-  Data(
-this.id,
- this.name,
- this.description,
- this.intro_url,
- this.price,
-   this.thumbnail_url
-  );
+  Data(this.id, this.name, this.description, this.intro_url, this.price,
+      this.thumbnail_url);
 
 //  Data.fromJson(Map<String, dynamic> json) {
 //   return Data(
@@ -60,11 +38,11 @@ class HomeScreenWidget extends StatefulWidget {
 }
 
 class _HomeScreenWidgetState extends State<HomeScreenWidget> {
-  final storage=new FlutterSecureStorage();
+  final storage = new FlutterSecureStorage();
 
   Future<List<Data>> _courseList() async {
-    var auth_token=await storage.read(key: 'token');
-    //print(auth_token);
+    var auth_token = await storage.read(key: 'token');
+    print(auth_token);
     final String token = 'uWb5qnuUnpBUPPutR0NAyHR6RqVrXP67xH3BWuhU';
     // await Future.delayed(Duration(seconds: 10));
     var url = Uri.parse('http://computerzirna.in/api/courses/index');
@@ -83,6 +61,7 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget> {
     print('course');
     return course;
   }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -92,19 +71,20 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget> {
         children: [
           Container(
             color: Colors.greenAccent,
-
             child: SizedBox(
-                height: 200.0,
-                width: 500.0,
-                child: Carousel(
-                  animationCurve: Curves.fastOutSlowIn,
-                  showIndicator: false,
-                  boxFit: BoxFit.contain,
-                  images: [
-                    NetworkImage('https://image.flaticon.com/icons/png/512/1792/1792525.png'),
-                    NetworkImage('https://image.flaticon.com/icons/png/512/3721/3721186.png')
-                  ],
-                ),
+              height: 200.0,
+              width: 500.0,
+              child: Carousel(
+                animationCurve: Curves.fastOutSlowIn,
+                showIndicator: false,
+                boxFit: BoxFit.contain,
+                images: [
+                  NetworkImage(
+                      'https://image.flaticon.com/icons/png/512/1792/1792525.png'),
+                  NetworkImage(
+                      'https://image.flaticon.com/icons/png/512/3721/3721186.png')
+                ],
+              ),
             ),
           ),
           Container(
@@ -121,7 +101,7 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget> {
           ),
           Container(
               margin: new EdgeInsets.only(top: 10),
-              child:  FutureBuilder(
+              child: FutureBuilder(
                 future: _courseList(),
                 builder: (BuildContext context, AsyncSnapshot snapshot) {
                   print(snapshot);
@@ -130,15 +110,16 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget> {
                     return Container(
                       height: 270,
                       child: GridView.builder(
-                        physics: NeverScrollableScrollPhysics(),
-                        shrinkWrap: true,
-                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 2,
-                            childAspectRatio: 3 / 2,
-                            crossAxisSpacing: 10,
-                            mainAxisSpacing: 10),
-                        itemCount: snapshot.data.length,
-                          itemBuilder: (BuildContext context,int index){
+                          physics: NeverScrollableScrollPhysics(),
+                          shrinkWrap: true,
+                          gridDelegate:
+                              SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 2,
+                                  childAspectRatio: 3 / 2,
+                                  crossAxisSpacing: 10,
+                                  mainAxisSpacing: 10),
+                          itemCount: snapshot.data.length,
+                          itemBuilder: (BuildContext context, int index) {
                             return Container(
                               child: CourseWidget(
                                 snapshot.data[index].id,
@@ -149,13 +130,16 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget> {
                                 snapshot.data[index].thumbnail_url,
                               ),
                             );
-                          }
-
-                      ),
+                          }),
                     );
-                  }else if(snapshot.hasError){
-                    return Center(child: Text('No Data'),);
-                  }return Center(child: CircularProgressIndicator(),);
+                  } else if (snapshot.hasError) {
+                    return Center(
+                      child: Text('No Data'),
+                    );
+                  }
+                  return Center(
+                    child: CircularProgressIndicator(),
+                  );
                 },
               )),
           Container(
