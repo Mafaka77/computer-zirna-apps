@@ -72,6 +72,7 @@ class _LoginState extends State<Login> {
     //print(response);
     if(response.statusCode==200){
       var decode=jsonDecode(response.body);
+      print(this.phoneNumber);
       Navigator.push(context, MaterialPageRoute(builder: (builder){
           return VerifyOtp(
             otp:decode['otp'].toString(),
