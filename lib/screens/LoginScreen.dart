@@ -81,7 +81,7 @@ class _LoginState extends State<Login> {
       }));
     }else{
        ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(this.phoneNumber))
+        SnackBar(content: Text('Please Enter Phone Number'))
       );
     }
   }

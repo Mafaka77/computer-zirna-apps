@@ -3,7 +3,7 @@ import '../widgets/CourseWidget.dart';
 import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 import 'package:carousel_pro/carousel_pro.dart';
 
@@ -60,8 +60,12 @@ class HomeScreenWidget extends StatefulWidget {
 }
 
 class _HomeScreenWidgetState extends State<HomeScreenWidget> {
+  final storage=new FlutterSecureStorage();
+
   Future<List<Data>> _courseList() async {
-    final String token = 'QflupvUSNdlPWJU3tZTbWFji5ExC6faRSO7Gxqxy';
+    var auth_token=await storage.read(key: 'token');
+    //print(auth_token);
+    final String token = 'uWb5qnuUnpBUPPutR0NAyHR6RqVrXP67xH3BWuhU';
     // await Future.delayed(Duration(seconds: 10));
     var url = Uri.parse('http://computerzirna.in/api/courses/index');
     var data = await http.get(url, headers: {

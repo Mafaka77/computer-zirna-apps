@@ -6,6 +6,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:http/http.dart' as http;
 import '../screens/MainScreen.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 class VerifyOtp extends StatefulWidget {
   final String otp;
   final String phone_no;
@@ -98,6 +99,7 @@ class _VerifyOtpState extends State<VerifyOtp> {
       //   setState(() {
       //     this.loading=true;
       //   });
+    final storage=new FlutterSecureStorage();
         var url=Uri.parse('http://computerzirna.in/api/auth/otp/verify');
         var response=await http.post(url,body: {
           'phone_no':this.widget.phone_no,
@@ -111,6 +113,9 @@ class _VerifyOtpState extends State<VerifyOtp> {
         var decode=jsonDecode(response.body);
         if(response.statusCode==200){
           // Navigator.pop(context);
+          var a=await storage.write(key: 'token', value: decode['data'].toString());
+          // var b=await storage.read(key: 'token');
+          // print(b);
           Navigator.of(context).pushReplacement(
             MaterialPageRoute(
               builder: (c)=>MainScreen(),
