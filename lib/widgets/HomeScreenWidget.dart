@@ -78,24 +78,8 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget> {
       slider.add(NetworkImage(u));
     }
     return jsonData;
-    //   List<CarouselData> cor=[];
-    //   for(var u in jsonData){
-    //     CarouselData da=CarouselData(u['corousel']);
-    //     cor.add(da);
-    //   }
-    //   print(cor);
-    // return cor;
-  }
 
-  //  Future loadImage() async{
-  //   var url = Uri.parse('http://computerzirna.in/api/public/data');
-  //   var data = await http.get(url);
-  //   var jsonData = jsonDecode(data.body)['data']['corousel'];
-  //      print(jsonData);
-  //  setState(() {
-  //    hello=jsonData;
-  //  });
-  // }
+  }
   @override
   Widget build(BuildContext context) {
     return Container(

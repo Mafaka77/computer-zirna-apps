@@ -63,6 +63,7 @@ class _CourseDetailState extends State<CourseDetailScreen> {
     _controller = YoutubePlayerController(
       initialVideoId: vidID,
       flags: const YoutubePlayerFlags(
+        hideThumbnail: false,
         mute: false,
         autoPlay: false,
         disableDragSeek: false,
@@ -110,6 +111,7 @@ class _CourseDetailState extends State<CourseDetailScreen> {
         SystemChrome.setPreferredOrientations(DeviceOrientation.values);
       },
       player: YoutubePlayer(
+        thumbnail: Center(child: CircularProgressIndicator(),),
         controller: _controller,
         showVideoProgressIndicator: true,
         progressIndicatorColor: Colors.blueAccent,

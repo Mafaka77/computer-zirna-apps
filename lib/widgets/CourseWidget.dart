@@ -19,7 +19,7 @@ class CourseWidget extends StatelessWidget {
               MaterialPageRoute(builder: (ctx) => CourseDetailScreen(id,name,price,description,intro_url)));
         },
         child: Image.network(
-          intro_url,
+          thumbnail_url,
           fit: BoxFit.cover,
         ),
       ),
