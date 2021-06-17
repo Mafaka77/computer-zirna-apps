@@ -8,6 +8,7 @@ class MyCoursePage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('My Course'),
+        automaticallyImplyLeading: false,
       ),
       body: Center(
         child: Text('My Course'),

@@ -8,6 +8,7 @@ class MyAccountPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('My Account'),
+        automaticallyImplyLeading: false,
       ),
       body: Center(
         child: Text('My Account'),

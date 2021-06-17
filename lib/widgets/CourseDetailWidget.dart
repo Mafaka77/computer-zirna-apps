@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 class CourseDetailWidget extends StatelessWidget {
-  final String subName;
-  final String subDetails;
+  final int id;
+  final String title;
+  final String description;
 
-  CourseDetailWidget(this.subName,this.subDetails);
+  CourseDetailWidget(this.id,this.title,this.description);
   @override
   Widget build(BuildContext context) {
     return Card(
       child: ListTile(
-        title: Text(subName),
-        subtitle: Text(subDetails),
+        title: Text(title),
+        subtitle: Text(description),
       ),
     );
   }

@@ -2,8 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
+import 'dart:convert';
+import 'dart:io';
+import 'package:http/http.dart' as http;
 import '../models/subject.dart';
 import '../widgets/CourseDetailWidget.dart';
+
+class Data{
+  final int id;
+  final String title;
+  final String description;
+  Data(this.id,this.title,this.description);
+}
 
 class CourseDetailScreen extends StatefulWidget {
   final int id;
@@ -18,6 +28,7 @@ class CourseDetailScreen extends StatefulWidget {
 }
 
 class _CourseDetailState extends State<CourseDetailScreen> {
+  
   late YoutubePlayerController _controller;
   late TextEditingController _idController;
   late TextEditingController _seekToController;
@@ -27,33 +38,6 @@ class _CourseDetailState extends State<CourseDetailScreen> {
   double _volume = 100;
   bool _muted = false;
   bool _isPlayerReady = false;
-
-  // final List<String> _ids = [
-  //  vidUrl,
-  // ];
-  // final List<Subject> sub = [
-  //   Subject(
-  //       id: '1',
-  //       subName: 'Microsoft Word',
-  //       subDetails: 'A dik vek e',
-  //       vidUrl: 'https://www.youtube.com/watch?v=p54r-ZoCVq4',
-  //       courseId: '1',
-  //       courseName: 'DCA'),
-  //   Subject(
-  //       id: '2',
-  //       subName: 'Microsoft Excel',
-  //       subDetails: 'A dik vek e',
-  //       vidUrl: 'https://www.youtube.com/watch?v=p54r-ZoCVq4',
-  //       courseId: '1',
-  //       courseName: 'DCA'),
-  //   Subject(
-  //       id: '3',
-  //       subName: 'Microsoft Power Point',
-  //       subDetails: 'A dik vek e',
-  //       vidUrl: 'https://www.youtube.com/watch?v=p54r-ZoCVq4',
-  //       courseId: '1',
-  //       courseName: 'DCA'),
-  // ];
   @override
   void initState() {
     var vidID;
@@ -103,6 +87,26 @@ class _CourseDetailState extends State<CourseDetailScreen> {
     super.dispose();
   }
 
+  Future<List<Data>> _myData() async{
+    final String token='27|PyFx4OE3iILxgWapF9Z6sS7fP1GaeuSPxtGBYZbs';
+    String id=widget.id.toString();
+    print(id);
+    var url=Uri.parse('http://computerzirna.in/api/courses/$id/show');
+    var response=await http.get(url,headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      'Authorization':'Bearer $token'
+    });
+    var jsonData=json.decode(response.body)['data']['videos'];
+    List<Data> les=[];
+    for(var u in jsonData){
+      Data da= Data(u['id'],u['title'],u['description']);
+      les.add(da);
+
+    }
+    print('les');
+    return les;
+  }
   @override
   Widget build(BuildContext context) {
     return YoutubePlayerBuilder(
@@ -111,7 +115,7 @@ class _CourseDetailState extends State<CourseDetailScreen> {
         SystemChrome.setPreferredOrientations(DeviceOrientation.values);
       },
       player: YoutubePlayer(
-        thumbnail: Center(child: CircularProgressIndicator(),),
+        // thumbnail: Center(child: CircularProgressIndicator(),),
         controller: _controller,
         showVideoProgressIndicator: true,
         progressIndicatorColor: Colors.blueAccent,
@@ -139,7 +143,7 @@ class _CourseDetailState extends State<CourseDetailScreen> {
       ),
       builder: (context, player) => Scaffold(
         appBar: AppBar(
-          title: Text('hello'),
+          title: Text(widget.name),
         ),
         body: SingleChildScrollView(
           child: Container(
@@ -202,16 +206,31 @@ class _CourseDetailState extends State<CourseDetailScreen> {
                   height: 5,
                   color: Colors.blueAccent,
                 ),
-                // Container(
-                //   margin: EdgeInsets.only(top: 10),
-                //   child:ListView.builder(
-                //     shrinkWrap: true,
-                //     itemCount: sub.length,
-                //     physics: NeverScrollableScrollPhysics(),
-                //     itemBuilder: (c, i) =>
-                //         CourseDetailWidget(sub[i].subName, sub[i].subDetails),
-                //   ),
-                // )
+                Container(
+                  margin: EdgeInsets.only(top: 10),
+                  child:FutureBuilder(
+                    future: _myData(),
+                    builder: (BuildContext context, AsyncSnapshot snapshot){
+                      print(snapshot);
+                      if(snapshot.hasData){
+                        return ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: snapshot.data.length,
+                          physics: NeverScrollableScrollPhysics(),
+                          itemBuilder: (c, i) =>
+                              CourseDetailWidget(
+                                snapshot.data[i].id,
+                                snapshot.data[i].title,
+                                snapshot.data[i].description
+                              ),
+                        );
+                      }else if(snapshot.hasError){
+                        return Center(child: Text('Error'),);
+                      }
+                      return Center(child: CircularProgressIndicator(),);
+                    },
+                  ),
+                )
               ],
             ),
           ),
