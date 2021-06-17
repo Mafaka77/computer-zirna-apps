@@ -4,8 +4,13 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-
 import 'package:carousel_pro/carousel_pro.dart';
+import 'package:carousel_slider/carousel_slider.dart';
+// class CarouselData {
+//   final List<String> corousel;
+//
+//   CarouselData(this.corousel);
+// }
 
 class Data {
   final int id;
@@ -45,13 +50,13 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget> {
     print(auth_token);
     final String token = 'uWb5qnuUnpBUPPutR0NAyHR6RqVrXP67xH3BWuhU';
     // await Future.delayed(Duration(seconds: 10));
-    var url = Uri.parse('http://computerzirna.in/api/courses/index');
+    var url = Uri.parse('http://computerzirna.in/api/public/data');
     var data = await http.get(url, headers: {
       'Content-Type': 'application/json',
       'Accept': 'application/json',
       'Authorization': 'Bearer $token',
     });
-    var jsonData = json.decode(data.body)['data'];
+    var jsonData = json.decode(data.body)['data']['courses'];
     List<Data> course = [];
     for (var u in jsonData) {
       Data da = Data(u['id'], u['name'], u['description'], u['intro_url'],
@@ -59,9 +64,38 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget> {
       course.add(da);
     }
     print('course');
+    // print(hello);
     return course;
   }
+  List<dynamic> slider=[];
+  Future<List> _carData() async {
+    var url = Uri.parse('http://computerzirna.in/api/public/data');
+    var data = await http.get(url);
+    var jsonData = jsonDecode(data.body)['data']['corousel'];
+    print(jsonData[0]);
 
+    for(var u in jsonData){
+      slider.add(NetworkImage(u));
+    }
+    return jsonData;
+    //   List<CarouselData> cor=[];
+    //   for(var u in jsonData){
+    //     CarouselData da=CarouselData(u['corousel']);
+    //     cor.add(da);
+    //   }
+    //   print(cor);
+    // return cor;
+  }
+
+  //  Future loadImage() async{
+  //   var url = Uri.parse('http://computerzirna.in/api/public/data');
+  //   var data = await http.get(url);
+  //   var jsonData = jsonDecode(data.body)['data']['corousel'];
+  //      print(jsonData);
+  //  setState(() {
+  //    hello=jsonData;
+  //  });
+  // }
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -71,22 +105,31 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget> {
         children: [
           Container(
             color: Colors.greenAccent,
-            child: SizedBox(
-              height: 200.0,
-              width: 500.0,
-              child: Carousel(
-                animationCurve: Curves.fastOutSlowIn,
-                showIndicator: false,
-                boxFit: BoxFit.contain,
-                images: [
-                  NetworkImage(
-                      'https://image.flaticon.com/icons/png/512/1792/1792525.png'),
-                  NetworkImage(
-                      'https://image.flaticon.com/icons/png/512/3721/3721186.png')
-                ],
-              ),
+            child: FutureBuilder(
+                  future: _carData(),
+                  builder: (c,snapshot){
+                    if(snapshot.hasData){
+                      return Center(
+                        child: SizedBox(
+                          height: 200,
+                          child: Carousel(
+                            images: slider,
+                            boxFit: BoxFit.cover,
+                            animationCurve: Curves.fastOutSlowIn,
+                            animationDuration: Duration(milliseconds: 1000),
+                            showIndicator: false,
+
+                          ),
+                        ),
+                      );
+                    }else if(snapshot.hasError){
+                      return Center(child:Text('Error'));
+                    }
+                    return Center(child: CircularProgressIndicator(),);
+
+                  }
+                )
             ),
-          ),
           Container(
             margin: new EdgeInsets.only(top: 10),
             child: Text(
@@ -159,15 +202,16 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget> {
             height: 200,
             margin: EdgeInsets.only(top: 10),
             child: ListView.builder(
-                itemCount: 4,
-                scrollDirection: Axis.horizontal,
-                shrinkWrap: true,
-                itemBuilder: (ctx, i) => Container(
-                      color: Colors.pink,
-                      margin: EdgeInsets.only(right: 10),
-                      width: 300,
-                      child: Text('Hello'),
-                    )),
+              itemCount: 4,
+              scrollDirection: Axis.horizontal,
+              shrinkWrap: true,
+              itemBuilder: (ctx, i) => Container(
+                color: Colors.pink,
+                margin: EdgeInsets.only(right: 10),
+                width: 300,
+                child: Text('Hello'),
+              ),
+            ),
           )
         ],
       ),

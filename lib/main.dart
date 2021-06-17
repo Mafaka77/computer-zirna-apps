@@ -42,7 +42,10 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        home:b==null? Login():MainScreen()
+        home:
+        // b==null?
+        // Login():
+        MainScreen()
     );
   }
 }
