@@ -11,11 +11,12 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-  String b;
+  String b='';
   final storage = new FlutterSecureStorage();
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+
     storage.read(key: 'token').then((value) => {
       b=value
     });
@@ -43,8 +44,8 @@ class MyApp extends StatelessWidget {
           primarySwatch: Colors.blue,
         ),
         home:
-        // b==null?
-        // Login():
+        b==null?
+        Login():
         MainScreen()
     );
   }
