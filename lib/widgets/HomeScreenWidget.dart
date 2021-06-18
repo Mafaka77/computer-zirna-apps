@@ -5,12 +5,6 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:carousel_pro/carousel_pro.dart';
-import 'package:carousel_slider/carousel_slider.dart';
-// class CarouselData {
-//   final List<String> corousel;
-//
-//   CarouselData(this.corousel);
-// }
 
 class Data {
   final int id;
@@ -22,17 +16,6 @@ class Data {
 
   Data(this.id, this.name, this.description, this.intro_url, this.price,
       this.thumbnail_url);
-
-//  Data.fromJson(Map<String, dynamic> json) {
-//   return Data(
-//       id: json['id'],
-//     name: json['name'],
-//     description: json['description'],
-//     price: json['price'],
-//       intro_url: json['intro_url'],
-//     thumbnail_url: json['thumbnail_url'],
-//   )
-// }
 }
 
 class HomeScreenWidget extends StatefulWidget {
@@ -68,32 +51,34 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget> {
     // print(hello);
     return course;
   }
-  List<dynamic> slider=[];
+
+  List<dynamic> slider = [];
+
   Future<List> _carData() async {
     var url = Uri.parse('http://computerzirna.in/api/public/data');
     var data = await http.get(url);
     var jsonData = jsonDecode(data.body)['data']['corousel'];
     print(jsonData[0]);
 
-    for(var u in jsonData){
+    for (var u in jsonData) {
       slider.add(NetworkImage(u));
     }
     return jsonData;
-
   }
+
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: new EdgeInsets.all(15),
+      margin: new EdgeInsets.only(left: 15, right: 15, bottom: 15),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
-            color: Colors.greenAccent,
-            child: FutureBuilder(
+              color: Colors.greenAccent,
+              child: FutureBuilder(
                   future: _carData(),
-                  builder: (c,snapshot){
-                    if(snapshot.hasData){
+                  builder: (c, snapshot) {
+                    if (snapshot.hasData) {
                       return Center(
                         child: SizedBox(
                           height: 200,
@@ -103,18 +88,16 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget> {
                             animationCurve: Curves.fastOutSlowIn,
                             animationDuration: Duration(milliseconds: 1000),
                             showIndicator: false,
-
                           ),
                         ),
                       );
-                    }else if(snapshot.hasError){
-                      return Center(child:Text('Error'));
+                    } else if (snapshot.hasError) {
+                      return Center(child: Text('Error'));
                     }
-                    return Center(child: CircularProgressIndicator(),);
-
-                  }
-                )
-            ),
+                    return Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  })),
           Container(
             margin: new EdgeInsets.only(top: 10),
             child: Text(
