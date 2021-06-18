@@ -33,8 +33,7 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget> {
     print(auth_token);
     final String token = 'uWb5qnuUnpBUPPutR0NAyHR6RqVrXP67xH3BWuhU';
     // await Future.delayed(Duration(seconds: 10));
-    var url = Uri.parse(''
-        'computerzirna.in/api/public/data');
+    var url = Uri.parse('http://computerzirna.in/api/public/data');
     var data = await http.get(url, headers: {
       'Content-Type': 'application/json',
       'Accept': 'application/json',
