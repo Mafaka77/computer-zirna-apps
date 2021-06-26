@@ -28,6 +28,8 @@ dependencies:
   pinput: ^1.2.0
   flutter_secure_storage: ^4.2.0
   carousel_slider: ^3.0.0
+  razorpay_flutter: 1.1.1
+  fluttertoast: ^8.0.7
   flutter:
     sdk: flutter
 

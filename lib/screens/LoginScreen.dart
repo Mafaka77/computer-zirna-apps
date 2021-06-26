@@ -43,14 +43,17 @@ class _LoginState extends State<Login> {
                         },
                       ),
                     ),
-                    SizedBox(
-                      width: 200,
-                      child: TextButton(
-                        child: Text('Send OTP'),
-                        onPressed: ()=>{sendOtp()},
-                        style: ButtonStyle(
-                          backgroundColor: MaterialStateProperty.all<Color>(Colors.blue),
-                          foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
+                    Center(
+                      child: SizedBox(
+                        width: 200,
+                        height: 50,
+                        child: TextButton(
+                          child: Text('Send OTP'),
+                          onPressed: ()=>{sendOtp()},
+                          style: ButtonStyle(
+                            backgroundColor: MaterialStateProperty.all<Color>(Colors.pinkAccent),
+                            foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
+                          ),
                         ),
                       ),
                     )

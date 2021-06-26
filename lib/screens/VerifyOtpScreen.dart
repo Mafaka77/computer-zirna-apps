@@ -68,17 +68,19 @@ class _VerifyOtpState extends State<VerifyOtp> {
                 ),
 
               ),
-              Container(
-                margin: EdgeInsets.only(top:10),
-                width: 400,
-                child: TextButton(
-                  child: Text('Submit'),
-                  onPressed: (){
-                    login();
-                  },
-                  style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all<Color>(Colors.blue),
-                    foregroundColor: MaterialStateProperty.all<Color>(Colors.black),
+              Center(
+                child: SizedBox(
+                  width: 500,
+                  height:50 ,
+                  child: TextButton(
+                    child: Text('Submit'),
+                    onPressed: (){
+                      login();
+                    },
+                    style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all(Colors.pinkAccent),
+                      foregroundColor: MaterialStateProperty.all(Colors.white),
+                    ),
                   ),
                 ),
               )
