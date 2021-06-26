@@ -35,7 +35,7 @@ class _MainScreenState extends State<MainScreen> {
             label: 'Home',
             activeIcon: Icon(
               Feather.home,
-              color: Colors.lightGreenAccent,
+              color: Colors.redAccent,
             ),
           ),
           BottomNavigationBarItem(
@@ -46,7 +46,7 @@ class _MainScreenState extends State<MainScreen> {
             label: ('My Course'),
             activeIcon: Icon(
               FontAwesome.calendar,
-              color: Colors.lightGreenAccent,
+              color: Colors.redAccent,
             ),
           ),
           BottomNavigationBarItem(
@@ -58,7 +58,7 @@ class _MainScreenState extends State<MainScreen> {
             label: ('My Account'),
             activeIcon: Icon(
               EvilIcons.user,
-              color: Colors.lightGreenAccent,
+              color: Colors.redAccent,
               size: 36,
             ),
           ),

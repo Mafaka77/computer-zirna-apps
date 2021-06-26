@@ -1,3 +1,4 @@
+import 'package:computer_zirna/screens/BuyClickScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 import 'package:flutter/rendering.dart';
@@ -173,7 +174,9 @@ class _CourseDetailState extends State<CourseDetailScreen> {
                       'Buy Now',
                       style: TextStyle(fontSize: 20, color: Colors.black),
                     ),
-                    onPressed: () => {},
+                    onPressed: () => {
+                      Navigator.of(context).push(MaterialPageRoute(builder: (builder)=>BuyClickScreen()))
+                    },
                   ),
                 ),
                 Container(

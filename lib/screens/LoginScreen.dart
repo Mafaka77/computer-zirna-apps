@@ -43,14 +43,14 @@ class _LoginState extends State<Login> {
                         },
                       ),
                     ),
-                    Container(
+                    SizedBox(
                       width: 200,
                       child: TextButton(
                         child: Text('Send OTP'),
                         onPressed: ()=>{sendOtp()},
                         style: ButtonStyle(
                           backgroundColor: MaterialStateProperty.all<Color>(Colors.blue),
-                          foregroundColor: MaterialStateProperty.all<Color>(Colors.black),
+                          foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
                         ),
                       ),
                     )
