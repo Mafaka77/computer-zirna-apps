@@ -116,6 +116,7 @@ class _BuyClickScreenState extends State<BuyClickScreen> {
     );
   }
   void submit() async{
+    print('Hello');
       String fullName=_fullNameController.text;
       String fatherName=_fatherNameController.text;
       String address=_addressController.text;
@@ -125,7 +126,8 @@ class _BuyClickScreenState extends State<BuyClickScreen> {
       final response=await http.post(url,body: {
         'full_name':fullName,
         'father_name':fatherName,
-        'address':address
+        'address':address,
+        'course_id':'1'
       },headers: {
         'Authorization': 'Bearer $token'
       });
