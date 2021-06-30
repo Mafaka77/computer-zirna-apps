@@ -99,7 +99,7 @@ class _BuyClickScreenState extends State<BuyClickScreen> {
                   height: 50,
                   child: TextButton(
                     onPressed: ()=>{submit()},
-                    child: Text('Save & Proceed to Checkout',style: TextStyle(fontSize: 20),),
+                    child: Text('Proceed to Checkout',style: TextStyle(fontSize: 20),),
                     style:ButtonStyle(backgroundColor: MaterialStateProperty.all(Colors.pinkAccent),
                     foregroundColor: MaterialStateProperty.all(Colors.white)) ,
                   ),
