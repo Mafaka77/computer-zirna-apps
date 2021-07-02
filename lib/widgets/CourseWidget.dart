@@ -22,11 +22,11 @@ class CourseWidget extends StatelessWidget {
                 CourseDetailScreen(id, name, price, description, intro_url)));
       },
       child: GridTile(
-        // child: Image.network(
-        //   thumbnail_url,
-        //   fit: BoxFit.cover,
-        // ),
-        child: Text('sadsad'),
+        child: Image.network(
+          thumbnail_url,
+          fit: BoxFit.contain,
+        ),
+        // child: Text('sadsad'),
         footer: GridTileBar(
           backgroundColor: Colors.black54,
           title: Text(

@@ -8,6 +8,7 @@ import 'dart:io';
 import 'package:http/http.dart' as http;
 import '../models/subject.dart';
 import '../widgets/CourseDetailWidget.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class Data{
   final int id;
@@ -89,23 +90,25 @@ class _CourseDetailState extends State<CourseDetailScreen> {
   }
 
   Future<List<Data>> _myData() async{
-    final String token='27|PyFx4OE3iILxgWapF9Z6sS7fP1GaeuSPxtGBYZbs';
+    final storage=new FlutterSecureStorage();
+    var token=await storage.read(key: 'token');
+    print(token);
+    String t='2|FmnYQDQ8dWrRGCd4HUKdM8uPVlD7jmAR6mTB7vrp';
     String id=widget.id.toString();
     print(id);
     var url=Uri.parse('http://computerzirna.in/api/courses/$id/show');
     var response=await http.get(url,headers: {
       'Content-Type': 'application/json',
       'Accept': 'application/json',
-      'Authorization':'Bearer $token'
+      'Authorization':'Bearer $t'
     });
     var jsonData=json.decode(response.body)['data']['videos'];
     List<Data> les=[];
     for(var u in jsonData){
       Data da= Data(u['id'],u['title'],u['description']);
       les.add(da);
-
     }
-    print('les');
+    print('Data a ni e');
     return les;
   }
   @override

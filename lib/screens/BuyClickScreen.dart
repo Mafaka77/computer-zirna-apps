@@ -8,6 +8,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
 import 'package:razorpay_flutter/razorpay_flutter.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+
 class BuyClickScreen extends StatefulWidget {
   const BuyClickScreen({Key? key}) : super(key: key);
 
@@ -16,12 +17,16 @@ class BuyClickScreen extends StatefulWidget {
 }
 
 class _BuyClickScreenState extends State<BuyClickScreen> {
-  final _fullNameController=TextEditingController();
-  final _fatherNameController=TextEditingController();
-  final _addressController=TextEditingController();
+  String order_id = '';
+  int sub_id=0;
+
+  final _fullNameController = TextEditingController();
+  final _fatherNameController = TextEditingController();
+  final _addressController = TextEditingController();
   static const platform = const MethodChannel("razorpay_flutter");
 
   late Razorpay _razorpay;
+
   @override
   void initState() {
     super.initState();
@@ -36,6 +41,7 @@ class _BuyClickScreenState extends State<BuyClickScreen> {
     super.dispose();
     _razorpay.clear();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -50,10 +56,10 @@ class _BuyClickScreenState extends State<BuyClickScreen> {
             children: [
               Center(
                 child: Container(
-          margin: EdgeInsets.only(bottom: 15),
+                  margin: EdgeInsets.only(bottom: 15),
                   child: Text(
                     'PLEASE FILL ALL THE FORMS',
-                    style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                   ),
                 ),
               ),
@@ -71,7 +77,7 @@ class _BuyClickScreenState extends State<BuyClickScreen> {
               ),
               Container(
                 margin: EdgeInsets.only(bottom: 15),
-                child:TextField(
+                child: TextField(
                   controller: _fatherNameController,
                   decoration: InputDecoration(
                     labelText: 'Father''s Name',
@@ -83,7 +89,7 @@ class _BuyClickScreenState extends State<BuyClickScreen> {
               ),
               Container(
                 margin: EdgeInsets.only(bottom: 15),
-                child:TextField(
+                child: TextField(
                   controller: _addressController,
                   decoration: InputDecoration(
                     labelText: 'Address',
@@ -98,10 +104,14 @@ class _BuyClickScreenState extends State<BuyClickScreen> {
                   width: 500,
                   height: 50,
                   child: TextButton(
-                    onPressed: ()=>{submit()},
-                    child: Text('Proceed to Checkout',style: TextStyle(fontSize: 20),),
-                    style:ButtonStyle(backgroundColor: MaterialStateProperty.all(Colors.pinkAccent),
-                    foregroundColor: MaterialStateProperty.all(Colors.white)) ,
+                    onPressed: () => {submit()},
+                    child: Text(
+                      'Proceed to Checkout', style: TextStyle(fontSize: 20),),
+                    style: ButtonStyle(
+                        backgroundColor: MaterialStateProperty.all(
+                            Colors.pinkAccent),
+                        foregroundColor: MaterialStateProperty.all(
+                            Colors.white)),
                   ),
                 ),
               ),
@@ -115,33 +125,51 @@ class _BuyClickScreenState extends State<BuyClickScreen> {
       ),
     );
   }
-  void submit() async{
-    print('Hello');
-      String fullName=_fullNameController.text;
-      String fatherName=_fatherNameController.text;
-      String address=_addressController.text;
-      final storage=new FlutterSecureStorage();
-      var token=await storage.read(key: 'token');
-      var url=Uri.parse('http://computerzirna.in/api/order/create');
-      final response=await http.post(url,body: {
-        'full_name':fullName,
-        'father_name':fatherName,
-        'address':address,
-        'course_id':'1'
-      },headers: {
+
+  void submit() async {
+    try {
+      print('hello');
+      String fullName = _fullNameController.text;
+      String fatherName = _fatherNameController.text;
+      String address = _addressController.text;
+      final storage = new FlutterSecureStorage();
+      var token = await storage.read(key: 'token');
+      var url = Uri.parse('http://computerzirna.in/api/subscription/create');
+      final response = await http.post(url, body: {
+        'full_name': fullName,
+        'father_name': fatherName,
+        'address': address,
+        'course_id': '1'
+      }, headers: {
         'Authorization': 'Bearer $token'
       });
-      if(response.statusCode==200) {
-          openCheckout();
+
+      if (response.statusCode == 200) {
+        int sub_id = jsonDecode(response.body)['data']['id'];
+        String order_id = jsonDecode(response.body)['data']['order_id'];
+
+        this.setState(() {
+          this.order_id = order_id;
+          this.sub_id = sub_id;
+        });
+        openCheckout();
       }
+      else {
+        print(response.body);
+      }
+    } catch (e) {
+      print(e);
+    }
+    // print('Hello');
+
   }
+
   void openCheckout() async {
     var options = {
-      'key': 'rzp_test_1DP5mmOlF5G5ag',
+      'key': 'rzp_test_jotAMBdkgdNLFL',
       'amount': 2000,
-      'name': 'Acme Corp.',
-      'description': 'Fine T-Shirt',
-      'prefill': {'contact': '8888888888', 'email': 'test@razorpay.com'},
+      'name': 'Computer zirna',
+      'order_id': order_id,
       'external': {
         'wallets': ['paytm']
       }
@@ -153,11 +181,42 @@ class _BuyClickScreenState extends State<BuyClickScreen> {
       debugPrint('Error: e');
     }
   }
-  void _handlePaymentSuccess(PaymentSuccessResponse response) {
-    Fluttertoast.showToast(
-        msg: "SUCCESS: " + response.paymentId!, toastLength: Toast.LENGTH_SHORT);
+
+  void _handlePaymentSuccess(PaymentSuccessResponse sresponse) {
+    print('sign '+sresponse.signature);
+    print('my order id '+order_id);
+    print('th order id '+sresponse.orderId);
+
+    this.verifyPayment(sresponse.paymentId, sresponse.signature, sresponse.orderId);
+
   }
 
+  void verifyPayment(var paymentId,var signature,var order)async{
+    try{
+      final storage = new FlutterSecureStorage();
+      var token=await storage.read(key: 'token');
+      var url = Uri.parse('http://computerzirna.in/api/subscription/verify');
+      var res=await http.post(url, body: {
+        'razorpay_order_id':order,
+        'subscription_id':sub_id.toString(),
+        'razorpay_payment_id':paymentId,
+        'razorpay_signature':signature,
+      }, headers: {
+        'Authorization': 'Bearer $token'
+      });
+      if(res.statusCode==200) {
+        print(res.body);
+
+        print('finito');
+      }else{
+        print("error");
+      }
+    }catch(error){
+      print(error);
+    }
+
+
+  }
   void _handlePaymentError(PaymentFailureResponse response) {
     Fluttertoast.showToast(
         msg: "ERROR: " + response.code.toString() + " - " + response.message!,
@@ -166,7 +225,8 @@ class _BuyClickScreenState extends State<BuyClickScreen> {
 
   void _handleExternalWallet(ExternalWalletResponse response) {
     Fluttertoast.showToast(
-        msg: "EXTERNAL_WALLET: " + response.walletName!, toastLength: Toast.LENGTH_SHORT);
+        msg: "EXTERNAL_WALLET: " + response.walletName!,
+        toastLength: Toast.LENGTH_SHORT);
   }
 
 }
