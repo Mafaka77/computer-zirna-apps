@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import '../screens/CourseDetailScreen.dart';
-import '../screens/CourseDetails.dart';
 
 class CourseWidget extends StatelessWidget {
   final int id;

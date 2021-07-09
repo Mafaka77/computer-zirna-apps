@@ -93,7 +93,7 @@ class _CourseDetailState extends State<CourseDetailScreen> {
     final storage=new FlutterSecureStorage();
     var token=await storage.read(key: 'token');
     print(token);
-    String t='2|FmnYQDQ8dWrRGCd4HUKdM8uPVlD7jmAR6mTB7vrp';
+    String t='11|xNx58VPbw3it4YJbV62nmnlvJI88vXikJsFzu1NH';
     String id=widget.id.toString();
     print(id);
     var url=Uri.parse('http://computerzirna.in/api/courses/$id/show');
