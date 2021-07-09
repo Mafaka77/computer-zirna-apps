@@ -54,7 +54,6 @@ class _MyAccountPageState extends State<MyAccountPage> {
   }
 
   late Future<Data> futureData;
-
   @override
   void initState() {
     // TODO: implement initState

@@ -205,9 +205,10 @@ class _BuyClickScreenState extends State<BuyClickScreen> {
         'Authorization': 'Bearer $token'
       });
       if(res.statusCode==200) {
-        print(res.body);
+        // print(res.body);
+        //
+        // print('finito');
 
-        print('finito');
       }else{
         print("error");
       }
