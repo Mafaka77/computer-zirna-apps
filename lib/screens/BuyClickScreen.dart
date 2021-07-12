@@ -10,7 +10,9 @@ import 'package:razorpay_flutter/razorpay_flutter.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 class BuyClickScreen extends StatefulWidget {
-  const BuyClickScreen({Key? key}) : super(key: key);
+  // const BuyClickScreen({Key? key}) : super(key: key);
+  final int id;
+  BuyClickScreen(this.id);
 
   @override
   _BuyClickScreenState createState() => _BuyClickScreenState();
@@ -129,6 +131,7 @@ class _BuyClickScreenState extends State<BuyClickScreen> {
   }
 
   void submit() async {
+    String c_id='2';
     try {
       // print('hello');
       String fullName = _fullNameController.text;
@@ -141,7 +144,7 @@ class _BuyClickScreenState extends State<BuyClickScreen> {
         'full_name': fullName,
         'father_name': fatherName,
         'address': address,
-        'course_id': '1'
+        'course_id': this.widget.id
       }, headers: {
         'Authorization': 'Bearer $token'
       });
@@ -149,7 +152,7 @@ class _BuyClickScreenState extends State<BuyClickScreen> {
       if (response.statusCode == 200) {
         int sub_id = jsonDecode(response.body)['data']['id'];
         String order_id = jsonDecode(response.body)['data']['order_id'];
-
+        print(c_id);
         this.setState(() {
           this.order_id = order_id;
           this.sub_id = sub_id;
@@ -159,7 +162,7 @@ class _BuyClickScreenState extends State<BuyClickScreen> {
         print(response.body);
       }
     } catch (e) {
-      print(e);
+      print('hello eror');
     }
     // print('Hello');
   }
@@ -206,8 +209,6 @@ class _BuyClickScreenState extends State<BuyClickScreen> {
       });
       if (res.statusCode == 200) {
         print(res.body);
-
-        print('finito');
       }else{
         print(res.body.toString());
       }

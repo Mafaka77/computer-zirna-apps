@@ -1,4 +1,7 @@
+import 'package:computer_zirna/main.dart';
 import 'package:computer_zirna/screens/BuyClickScreen.dart';
+import 'package:computer_zirna/screens/MainScreen.dart';
+import 'package:computer_zirna/screens/MyCoursePage.dart';
 import 'package:flutter/material.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 import 'package:flutter/rendering.dart';
@@ -30,7 +33,7 @@ class CourseDetailScreen extends StatefulWidget {
 }
 
 class _CourseDetailState extends State<CourseDetailScreen> {
-  
+  int c_id=0;
   late YoutubePlayerController _controller;
   late TextEditingController _idController;
   late TextEditingController _seekToController;
@@ -42,9 +45,11 @@ class _CourseDetailState extends State<CourseDetailScreen> {
   bool _isPlayerReady = false;
   @override
   void initState() {
+    //print(this.widget.name);
     var vidID;
     vidID = YoutubePlayer.convertUrlToId(widget.intro_url);
-
+    loadMe();
+    //print(c_id.toString());
     super.initState();
     _controller = YoutubePlayerController(
       initialVideoId: vidID,
@@ -63,6 +68,34 @@ class _CourseDetailState extends State<CourseDetailScreen> {
     _seekToController = TextEditingController();
     _videoMetaData = const YoutubeMetaData();
     _playerState = PlayerState.unknown;
+  }
+  void loadMe() async{
+    final storage = new FlutterSecureStorage();
+    var token = await storage.read(key: 'token');
+    var url=Uri.parse('http://computerzirna.in/api/profile/courses');
+    var response=await http.get(url,headers: {
+      'Authorization': 'Bearer $token'
+    });
+    if(response.statusCode==200){
+      var app=jsonDecode(response.body)['data'];
+      //print(course_id);
+      var myList=[];
+      for(var a in app){
+        myList.add(a['id']);
+        if(myList.contains(this.widget.id)){
+          this.setState(() {
+            this.c_id=this.widget.id;
+          });
+        }
+
+
+      }
+     // setState(() {
+     //   this.c_id=course_id;
+     // });
+      print(c_id.toString());
+    }
+
   }
 
   void listener() {
@@ -92,10 +125,10 @@ class _CourseDetailState extends State<CourseDetailScreen> {
   Future<List<Data>> _myData() async{
     final storage=new FlutterSecureStorage();
     var token=await storage.read(key: 'token');
-    print(token);
+    //print(token);
     String t='11|xNx58VPbw3it4YJbV62nmnlvJI88vXikJsFzu1NH';
     String id=widget.id.toString();
-    print(id);
+    //print(id);
     var url=Uri.parse('http://computerzirna.in/api/courses/$id/show');
     var response=await http.get(url,headers: {
       'Content-Type': 'application/json',
@@ -108,7 +141,7 @@ class _CourseDetailState extends State<CourseDetailScreen> {
       Data da= Data(u['id'],u['title'],u['description']);
       les.add(da);
     }
-    print('Data a ni e');
+    //print('Data a ni e');
     return les;
   }
   @override
@@ -167,19 +200,33 @@ class _CourseDetailState extends State<CourseDetailScreen> {
                 Container(
                   width: 500,
                   margin: EdgeInsets.only(top: 10),
-                  child: TextButton(
+                  child:this.widget.id==c_id? TextButton(
                     style: ButtonStyle(
                       foregroundColor:
                           MaterialStateProperty.all<Color>(Colors.blue),
                       backgroundColor:
                           MaterialStateProperty.all<Color>(Colors.redAccent),
                     ),
-                    child: Text(
+                    child:Text(
+                      'Already Puchased',
+                      style: TextStyle(fontSize: 20, color: Colors.black),
+                    ),
+                    onPressed: () => {
+                      Navigator.of(context).push(MaterialPageRoute(builder: (builder)=>MainScreen()))
+                    },
+                  ):TextButton(
+                    style: ButtonStyle(
+                      foregroundColor:
+                      MaterialStateProperty.all<Color>(Colors.blue),
+                      backgroundColor:
+                      MaterialStateProperty.all<Color>(Colors.pinkAccent),
+                    ),
+                    child:Text(
                       'Buy Now',
                       style: TextStyle(fontSize: 20, color: Colors.black),
                     ),
                     onPressed: () => {
-                      Navigator.of(context).push(MaterialPageRoute(builder: (builder)=>BuyClickScreen()))
+                      Navigator.of(context).push(MaterialPageRoute(builder: (builder)=>BuyClickScreen(this.widget.id)))
                     },
                   ),
                 ),
