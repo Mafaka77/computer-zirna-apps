@@ -54,7 +54,8 @@ class _CourseDetailState extends State<CourseDetailScreen> {
     _controller = YoutubePlayerController(
       initialVideoId: vidID,
       flags: const YoutubePlayerFlags(
-        hideThumbnail: false,
+        useHybridComposition: true,
+        hideThumbnail: true,
         mute: false,
         autoPlay: false,
         disableDragSeek: false,
@@ -151,6 +152,9 @@ class _CourseDetailState extends State<CourseDetailScreen> {
         // The player forces portraitUp after exiting fullscreen. This overrides the behaviour.
         SystemChrome.setPreferredOrientations(DeviceOrientation.values);
       },
+      onEnterFullScreen: (){
+        SystemChrome.setPreferredOrientations([DeviceOrientation.landscapeLeft]);
+      },
       player: YoutubePlayer(
         // thumbnail: Center(child: CircularProgressIndicator(),),
         controller: _controller,
@@ -173,6 +177,7 @@ class _CourseDetailState extends State<CourseDetailScreen> {
         onReady: () {
           _isPlayerReady = true;
         },
+
         // onEnded: (data) {
         //   _controller
         //       .load(widget.vidUrl[(_ids.indexOf(data.videoId) + 1) % _ids.length]);

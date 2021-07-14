@@ -5,6 +5,10 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:carousel_pro/carousel_pro.dart';
+import 'package:youtube_player_flutter/youtube_player_flutter.dart';
+import 'package:flutter/rendering.dart';
+import 'package:flutter/services.dart';
+
 
 class Data {
   final int id;
@@ -46,8 +50,7 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget> {
           u['price'], u['thumbnail_url']);
       course.add(da);
     }
-    print('course');
-    // print(hello);
+
     return course;
   }
 
@@ -57,12 +60,55 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget> {
     var url = Uri.parse('http://computerzirna.in/api/public/data');
     var data = await http.get(url);
     var jsonData = jsonDecode(data.body)['data']['corousel'];
-    print(jsonData[0]);
+   //print(jsonData[0]);
 
     for (var u in jsonData) {
       slider.add(NetworkImage(u));
     }
+    //print(slider);
     return jsonData;
+  }
+
+   List ad=[];
+  List thumbnail=[];
+  late List<YoutubePlayerController> _controllersYoutube;
+  List<dynamic> ads = [];
+  Future _adsData() async {
+    var url = Uri.parse('http://computerzirna.in/api/public/data');
+    var data = await http.get(url);
+    var jsonData = jsonDecode(data.body)['data']['banners'];
+    // var con=YoutubePlayer.convertUrlToId(jsonData);
+    print(jsonData);
+    setState(() {
+      for (var u in jsonData) {
+        thumbnail.add(u['url']);
+
+      }
+      for(var a in thumbnail){
+        ad.add(YoutubePlayer.convertUrlToId(a));
+        print(ad);
+      }
+      _controllersYoutube=ad.map<YoutubePlayerController>((videoID){
+        return YoutubePlayerController(
+          initialVideoId: videoID,
+          flags: const YoutubePlayerFlags(
+            disableDragSeek: true,
+            autoPlay: false,
+            hideControls: false,
+            isLive: false,
+
+
+          )
+        );
+      }).toList();
+    });
+
+  }
+
+  @override
+  void initState() {
+    _adsData();
+    super.initState();
   }
 
   @override
@@ -169,17 +215,29 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget> {
             height: 200,
             margin: EdgeInsets.only(top: 10),
             child: ListView.builder(
-              itemCount: 4,
+              // physics: NeverScrollableScrollPhysics(),
+              itemCount: thumbnail.length,
               scrollDirection: Axis.horizontal,
               shrinkWrap: true,
-              itemBuilder: (ctx, i) => Container(
-                color: Colors.pink,
+              itemBuilder: (ctx, index) => Container(
+                color: Colors.white,
                 margin: EdgeInsets.only(right: 10),
                 width: 300,
-                child: Text('Hello'),
+                  child: YoutubePlayer(
+                      key: ObjectKey(_controllersYoutube[index]),
+                      controller: _controllersYoutube[index],
+                      actionsPadding: const EdgeInsets.only(left: 16.0),
+                      bottomActions: [
+                        CurrentPosition(),
+                        ProgressBar(isExpanded: true),
+                        const SizedBox(width: 10.0),
+                        RemainingDuration(),
+
+                      ],
+                    ),
+                ),
               ),
             ),
-          )
         ],
       ),
     );

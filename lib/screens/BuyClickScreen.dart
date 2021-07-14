@@ -131,7 +131,7 @@ class _BuyClickScreenState extends State<BuyClickScreen> {
   }
 
   void submit() async {
-    String c_id='2';
+    var a=this.widget.id;
     try {
       // print('hello');
       String fullName = _fullNameController.text;
@@ -144,7 +144,7 @@ class _BuyClickScreenState extends State<BuyClickScreen> {
         'full_name': fullName,
         'father_name': fatherName,
         'address': address,
-        'course_id': this.widget.id
+        'course_id':a.toString()
       }, headers: {
         'Authorization': 'Bearer $token'
       });
@@ -152,7 +152,7 @@ class _BuyClickScreenState extends State<BuyClickScreen> {
       if (response.statusCode == 200) {
         int sub_id = jsonDecode(response.body)['data']['id'];
         String order_id = jsonDecode(response.body)['data']['order_id'];
-        print(c_id);
+        //print(this.widget.id);
         this.setState(() {
           this.order_id = order_id;
           this.sub_id = sub_id;
@@ -162,7 +162,7 @@ class _BuyClickScreenState extends State<BuyClickScreen> {
         print(response.body);
       }
     } catch (e) {
-      print('hello eror');
+      print(e);
     }
     // print('Hello');
   }

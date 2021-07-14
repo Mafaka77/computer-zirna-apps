@@ -1,3 +1,4 @@
+import 'package:computer_zirna/screens/CourseLessionScreen.dart';
 import 'package:flutter/material.dart';
 
 class MyCourseList extends StatelessWidget {
@@ -12,7 +13,9 @@ class MyCourseList extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       child: ListTile(
-        onTap: () {},
+        onTap: () {
+          Navigator.of(context).push(MaterialPageRoute(builder: (builder)=>MyLession(this.id,this.name)));
+        },
         leading: Image.network(
           this.thumbnail_url,
           fit: BoxFit.cover,

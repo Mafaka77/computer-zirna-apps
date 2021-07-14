@@ -1,5 +1,6 @@
 // @dart=2.9
 import 'package:computer_zirna/screens/MainScreen.dart';
+import 'package:computer_zirna/screens/SplashScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'screens/LoginScreen.dart';
@@ -31,7 +32,7 @@ class MyApp extends StatelessWidget {
       // home:Valid()
       initialRoute: a==null?'login':'/',
       routes: {
-        '/':(context)=>MainScreen(),
+        '/':(context)=>SplashScreen(),
         'login':(context)=>Login()
       },
     );

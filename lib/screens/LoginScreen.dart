@@ -32,10 +32,7 @@ class _LoginState extends State<Login> {
                   Container(
                       width: 150,
                       // child: Text('LOGIN',style: TextStyle(fontSize: 30,fontWeight: FontWeight.bold),),
-                      child: Image.network(
-                        'https://image.flaticon.com/icons/png/512/1791/1791961.png',
-                        fit: BoxFit.cover,
-                      )),
+                      child: Image(image: AssetImage('images/locksmith.png'),)),
                   Center(
                     child: Container(
                       margin: EdgeInsets.only(top: 30),

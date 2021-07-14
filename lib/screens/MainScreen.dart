@@ -29,23 +29,23 @@ class _MainScreenState extends State<MainScreen> {
         items: [
           BottomNavigationBarItem(
             icon: Icon(
-              Feather.home,
+              FontAwesome.home,
               color: Colors.lightBlue,
             ),
             label: 'Home',
             activeIcon: Icon(
-              Feather.home,
+              FontAwesome.home,
               color: Colors.redAccent,
             ),
           ),
           BottomNavigationBarItem(
             icon: Icon(
-              FontAwesome.calendar,
+              FontAwesome5.play_circle,
               color: Colors.lightBlue,
             ),
             label: ('My Course'),
             activeIcon: Icon(
-              FontAwesome.calendar,
+              FontAwesome5.play_circle,
               color: Colors.redAccent,
             ),
           ),

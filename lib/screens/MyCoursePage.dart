@@ -56,7 +56,8 @@ class _MyCoursePageState extends State<MyCoursePage> {
                   snapshot.data[i].id,
                   snapshot.data[i].name,
                   snapshot.data[i].description,
-                  snapshot.data[i].thumbnail_url),
+                  snapshot.data[i].thumbnail_url,
+                 ),
             );
           } else if (snapshot.hasError) {
             return Center(

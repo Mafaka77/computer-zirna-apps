@@ -44,7 +44,7 @@ class _VerifyOtpState extends State<VerifyOtp> {
                   child: CircularProgressIndicator(),
                 )
               : Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     // Container(
                     //   child: TextField(
@@ -60,11 +60,11 @@ class _VerifyOtpState extends State<VerifyOtp> {
                     // ),
                     Center(
                       child: Container(
-                        width: 100,
-                        margin: EdgeInsets.only(bottom: 20),
-                        child: Image.network(
-                            'https://image.flaticon.com/icons/png/512/673/673069.png'),
-                      ),
+                          width: 100,
+                          margin: EdgeInsets.only(bottom: 20),
+                          child: Image(
+                            image: AssetImage('images/password.png'),
+                          )),
                     ),
                     Center(
                       child: Container(
@@ -88,15 +88,18 @@ class _VerifyOtpState extends State<VerifyOtp> {
                     ),
                     Container(
                       margin: EdgeInsets.only(top: 10),
-                      child:GestureDetector(
-                        onTap: (){},
+                      child: GestureDetector(
+                        onTap: () {},
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
-                            Text('Resend?',style: TextStyle(color: Colors.blueAccent),),
+                            Text(
+                              'Resend?',
+                              style: TextStyle(color: Colors.blueAccent),
+                            ),
                           ],
                         ),
-                      ) ,
+                      ),
                     ),
                     Center(
                       child: Container(
@@ -105,7 +108,10 @@ class _VerifyOtpState extends State<VerifyOtp> {
                           width: 500,
                           height: 50,
                           child: TextButton(
-                            child: Text('Submit',style: TextStyle(fontSize: 17),),
+                            child: Text(
+                              'Submit',
+                              style: TextStyle(fontSize: 17),
+                            ),
                             onPressed: () {
                               login();
                             },
