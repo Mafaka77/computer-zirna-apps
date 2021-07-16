@@ -146,8 +146,8 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget> {
           Container(
             margin: new EdgeInsets.only(top: 10),
             child: Text(
-              'Hot Course',
-              style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+              'Our Courses',
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
           ),
           Container(

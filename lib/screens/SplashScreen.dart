@@ -33,7 +33,7 @@ class _SplashScreenState extends State<SplashScreen> {
             Container(
               margin: EdgeInsets.only(left: 100,right: 100,top: 120),
               child: Center(
-                child: Image(image: AssetImage('images/locksmith.png'),fit: BoxFit.contain,)
+                child: Image(image: AssetImage('images/city.png'),fit: BoxFit.contain,)
               ),
             ),
           ],
