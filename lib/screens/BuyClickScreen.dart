@@ -8,6 +8,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
 import 'package:razorpay_flutter/razorpay_flutter.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import '../screens/PaymentSuccessScreen.dart';
 
 class BuyClickScreen extends StatefulWidget {
   // const BuyClickScreen({Key? key}) : super(key: key);
@@ -209,6 +210,8 @@ class _BuyClickScreenState extends State<BuyClickScreen> {
       });
       if (res.statusCode == 200) {
         print(res.body);
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Payment Successful')));
+        Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (b)=>PaymentSuccessScreen()));
       }else{
         print(res.body.toString());
       }

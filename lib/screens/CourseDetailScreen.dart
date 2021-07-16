@@ -127,16 +127,16 @@ class _CourseDetailState extends State<CourseDetailScreen> {
     final storage=new FlutterSecureStorage();
     var token=await storage.read(key: 'token');
     //print(token);
-    String t='11|xNx58VPbw3it4YJbV62nmnlvJI88vXikJsFzu1NH';
+    //String t='11|xNx58VPbw3it4YJbV62nmnlvJI88vXikJsFzu1NH';
     String id=widget.id.toString();
     //print(id);
-    var url=Uri.parse('http://computerzirna.in/api/courses/$id/show');
+    var url=Uri.parse('http://computerzirna.in/api/courses/$id/subjects');
     var response=await http.get(url,headers: {
       'Content-Type': 'application/json',
       'Accept': 'application/json',
-      'Authorization':'Bearer $t'
+      'Authorization':'Bearer $token'
     });
-    var jsonData=json.decode(response.body)['data']['videos'];
+    var jsonData=json.decode(response.body)['data'];
     List<Data> les=[];
     for(var u in jsonData){
       Data da= Data(u['id'],u['title'],u['description']);
@@ -217,7 +217,7 @@ class _CourseDetailState extends State<CourseDetailScreen> {
                       style: TextStyle(fontSize: 20, color: Colors.black),
                     ),
                     onPressed: () => {
-                      Navigator.of(context).push(MaterialPageRoute(builder: (builder)=>MainScreen()))
+                      Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (builder)=>MyCoursePage()))
                     },
                   ):TextButton(
                     style: ButtonStyle(

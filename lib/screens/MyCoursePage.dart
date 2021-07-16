@@ -10,8 +10,9 @@ class Data {
   final String name;
   final String description;
   final String thumbnail_url;
+  final String intro_url;
 
-  Data(this.id, this.name, this.description, this.thumbnail_url);
+  Data(this.id, this.name, this.description, this.thumbnail_url,this.intro_url);
 }
 
 class MyCoursePage extends StatefulWidget {
@@ -30,7 +31,7 @@ class _MyCoursePageState extends State<MyCoursePage> {
     var response = json.decode(data.body)['data'];
     List<Data> course = [];
     for (var u in response) {
-      Data da = Data(u['id'], u['name'], u['description'], u['thumbnail_url']);
+      Data da = Data(u['id'], u['name'], u['description'], u['thumbnail_url'],u['intro_url']);
       course.add(da);
     }
     return course;

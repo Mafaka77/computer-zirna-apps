@@ -31,6 +31,10 @@ dependencies:
   carousel_slider: ^3.0.0
   razorpay_flutter: 1.1.1
   fluttertoast: ^8.0.7
+  path_provider: ^2.0.2
+  dio: ^4.0.0
+  ext_storage: ^1.0.3
+  permission_handler: ^8.1.2
   flutter:
     sdk: flutter
 
@@ -61,6 +65,8 @@ flutter:
   assets:
     - images/locksmith.png
     - images/password.png
+    - images/credit-card.png
+    - images/city.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

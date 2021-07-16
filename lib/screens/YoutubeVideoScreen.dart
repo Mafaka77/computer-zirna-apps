@@ -9,6 +9,7 @@ import '../models/subject.dart';
 import '../widgets/CourseDetailWidget.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:google_fonts/google_fonts.dart';
+
 class YoutubeVideos extends StatefulWidget {
   final String video_url;
 
@@ -86,11 +87,13 @@ class _YoutubeVideosState extends State<YoutubeVideos> {
   @override
   Widget build(BuildContext context) {
     return YoutubePlayerBuilder(
+
       // onExitFullScreen: (){
       //   SystemChrome.setPreferredOrientations(DeviceOrientation.values);
       // },
       player: YoutubePlayer(
-        //aspectRatio: 16/9,
+        //actionsPadding: EdgeInsets.only(top: 50),
+        aspectRatio: 18/9,
         controller: _controller,
         showVideoProgressIndicator: true,
         progressIndicatorColor: Colors.blueAccent,

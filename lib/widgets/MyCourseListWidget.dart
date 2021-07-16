@@ -12,7 +12,8 @@ class MyCourseList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      child: ListTile(
+      child:
+      ListTile(
         onTap: () {
           Navigator.of(context).push(MaterialPageRoute(builder: (builder)=>MyLession(this.id,this.name)));
         },

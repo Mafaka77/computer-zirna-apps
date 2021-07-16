@@ -1,3 +1,4 @@
+import 'package:computer_zirna/screens/AboutUsScreen.dart';
 import 'package:flutter/material.dart';
 import '../screens/HomePage.dart';
 import '../screens/MyCoursePage.dart';
@@ -15,7 +16,7 @@ class _MainScreenState extends State<MainScreen> {
   List<Widget> _widgetOptions = <Widget>[
     HomePage(),
     MyCoursePage(),
-    MyAccountPage(),
+    AboutUs(),
   ];
 
   @override
@@ -55,7 +56,7 @@ class _MainScreenState extends State<MainScreen> {
               color: Colors.lightBlue,
               size: 36,
             ),
-            label: ('My Account'),
+            label: ('About Us'),
             activeIcon: Icon(
               EvilIcons.user,
               color: Colors.redAccent,
