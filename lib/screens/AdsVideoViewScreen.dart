@@ -2,24 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
-import 'dart:convert';
-import 'dart:io';
-import 'package:http/http.dart' as http;
-import '../models/subject.dart';
-import '../widgets/CourseDetailWidget.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:google_fonts/google_fonts.dart';
-
-class YoutubeVideos extends StatefulWidget {
-  final String video_url;
-
- YoutubeVideos(this.video_url);
+class AdsVideoView extends StatefulWidget {
+  final String vid_id;
+ AdsVideoView(this.vid_id);
 
   @override
-  _YoutubeVideosState createState() => _YoutubeVideosState();
+  _AdsVideoViewState createState() => _AdsVideoViewState();
 }
 
-class _YoutubeVideosState extends State<YoutubeVideos> {
+class _AdsVideoViewState extends State<AdsVideoView> {
   late YoutubePlayerController _controller;
   late TextEditingController _idController;
   late TextEditingController _seekToController;
@@ -32,11 +23,12 @@ class _YoutubeVideosState extends State<YoutubeVideos> {
   @override
   void initState() {
     //print(this.widget.name);
+    super.initState();
     SystemChrome.setPreferredOrientations([DeviceOrientation.landscapeLeft]);
     var vidID;
-    vidID = YoutubePlayer.convertUrlToId(widget.video_url);
+    vidID = YoutubePlayer.convertUrlToId(widget.vid_id);
     //print(c_id.toString());
-    super.initState();
+
     _controller = YoutubePlayerController(
       initialVideoId: vidID,
       flags: const YoutubePlayerFlags(
@@ -116,18 +108,19 @@ class _YoutubeVideosState extends State<YoutubeVideos> {
         },
       ),
       builder: (context,player)=>Scaffold(
-       appBar: AppBar(title: Text('VIDEOS'),),
-        body: SingleChildScrollView(
-          child: Container(
-            margin: EdgeInsets.all(15),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                player
-              ],
-            ),
-          ),
-        ),
+        appBar: AppBar(title: Text('VIDEOS'),),
+        body: player,
+        // body: SingleChildScrollView(
+        //   child: Container(
+        //     margin: EdgeInsets.all(15),
+        //     child: Column(
+        //       crossAxisAlignment: CrossAxisAlignment.start,
+        //       children: [
+        //         player
+        //       ],
+        //     ),
+        //   ),
+        // ),
       ),
     );
   }

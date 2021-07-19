@@ -23,6 +23,7 @@ class MyCoursePage extends StatefulWidget {
 }
 
 class _MyCoursePageState extends State<MyCoursePage> {
+  late Future<List<Data>> courses;
   Future<List<Data>> _courseData() async {
     final storage = new FlutterSecureStorage();
     var token = await storage.read(key: 'token');
@@ -36,6 +37,13 @@ class _MyCoursePageState extends State<MyCoursePage> {
     }
     return course;
   }
+  @override
+  void initState() {
+    // TODO: implement initState
+    courses=_courseData();
+    super.initState();
+
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +54,7 @@ class _MyCoursePageState extends State<MyCoursePage> {
       ),
       body: Container(
           child: FutureBuilder(
-        future: _courseData(),
+        future: courses,
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           if (snapshot.hasData) {
             return ListView.builder(
@@ -58,6 +66,7 @@ class _MyCoursePageState extends State<MyCoursePage> {
                   snapshot.data[i].name,
                   snapshot.data[i].description,
                   snapshot.data[i].thumbnail_url,
+                  snapshot.data[i].intro_url
                  ),
             );
           } else if (snapshot.hasError) {

@@ -108,7 +108,7 @@ class _BuyClickScreenState extends State<BuyClickScreen> {
                   height: 50,
                   child: TextButton(
                     onPressed: () => {submit()},
-                    child: Text(
+                    child:const Text(
                       'Proceed to Checkout',
                       style: TextStyle(fontSize: 20),
                     ),
@@ -122,8 +122,14 @@ class _BuyClickScreenState extends State<BuyClickScreen> {
               ),
               Container(
                 margin: EdgeInsets.only(top: 15),
-                child: Text('Important Notes:'),
-              )
+                child:const Text('Important Notes:'),
+              ),
+              ListTile(
+                title:const Text('1. He Course hi vawi 1 i lei hian Kum 1 zel a dam a ni.'),
+              ),
+              ListTile(
+                title:const Text('2. Exam form fill up hun tur information in pek a ni ang.'),
+              ),
             ],
           ),
         ),

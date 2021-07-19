@@ -52,13 +52,13 @@ class _MainScreenState extends State<MainScreen> {
           ),
           BottomNavigationBarItem(
             icon: Icon(
-              EvilIcons.user,
+              EvilIcons.question,
               color: Colors.lightBlue,
               size: 36,
             ),
             label: ('About Us'),
             activeIcon: Icon(
-              EvilIcons.user,
+              EvilIcons.question,
               color: Colors.redAccent,
               size: 36,
             ),

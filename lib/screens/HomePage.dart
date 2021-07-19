@@ -8,6 +8,8 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:youtube_player_flutter/youtube_player_flutter.dart';
+import 'package:flutter/rendering.dart';
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
 
@@ -39,116 +41,152 @@ class _HomePageState extends State<HomePage> {
       throw Exception('Failed to load ');
     }
   }
+  List ad=[];
+  List thumbnail=[];
+  late List<YoutubePlayerController> _controllersYoutube;
+  List<dynamic> ads = [];
+  Future _adsData() async {
+    var url = Uri.parse('http://computerzirna.in/api/public/data');
+    var data = await http.get(url);
+    var jsonData = jsonDecode(data.body)['data']['banners'];
+    // var con=YoutubePlayer.convertUrlToId(jsonData);
+    print(jsonData);
+    setState(() {
+      for (var u in jsonData) {
+        thumbnail.add(u['url']);
 
+      }
+      for(var a in thumbnail){
+        ad.add(YoutubePlayer.convertUrlToId(a));
+        print(ad);
+      }
+      _controllersYoutube=ad.map<YoutubePlayerController>((videoID){
+        return YoutubePlayerController(
+            initialVideoId: videoID,
+            flags: const YoutubePlayerFlags(
+              disableDragSeek: true,
+              autoPlay: false,
+              hideControls: false,
+              isLive: false,
+
+
+            )
+        );
+      }).toList();
+    });
+
+  }
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    _adsData();
     _myData();
   }
 
 
   @override
   Widget build(BuildContext context) {
-    return new Scaffold(
-        key: _scaffoldKey,
-        endDrawer: new Drawer(
-          child: ListView(
-            children: [
-             Container(
-               color:Colors.greenAccent,
-               child: DrawerHeader(
-                 child: Column(
-                   children: [
-                     Container(
-                       margin:EdgeInsets.only(top:10),
-                       child: Text('Welcome',style: TextStyle(fontSize: 20),),
-                     ),
-                     Container(
-                       child: Text(mobile,style: TextStyle(fontSize: 30),),
-                     ),
-                     Container(
-                       width: 120,
-                       child: TextButton(
-                         onPressed: (){
-                           storage.delete(key: 'token');
-                           Navigator.pushReplacement(context, MaterialPageRoute(builder: (builder)=>Login()));
-                         },
-                         child: Text('Logout'),
-                         style: ButtonStyle(
-                           foregroundColor: MaterialStateProperty.all(Colors.white),
-                           backgroundColor: MaterialStateProperty.all(Colors.redAccent)
-                         ),
-                       )
-                     )
-                   ],
-                 ),
-               ),
-             ),
-              Container(
-                child: GestureDetector(
-                  onTap: (){
-                    Navigator.of(context).push(MaterialPageRoute(builder: (c)=>MyCoursePage()));
-                  },
-                  child: ListTile(
-                    title: Text('My Courses'),
-                    trailing: Icon(FontAwesome.arrow_circle_o_right,color: Colors.greenAccent,),
+    return Scaffold(
+                key: _scaffoldKey,
+                endDrawer: new Drawer(
+                  child: ListView(
+                    children: [
+                      Container(
+                        color:Colors.greenAccent,
+                        child: DrawerHeader(
+                          child: Column(
+                            children: [
+                              Container(
+                                margin:EdgeInsets.only(top:10),
+                                child: Text('Welcome',style: TextStyle(fontSize: 20),),
+                              ),
+                              Container(
+                                child: Text(mobile,style: TextStyle(fontSize: 30),),
+                              ),
+                              Container(
+                                  width: 120,
+                                  child: TextButton(
+                                    onPressed: (){
+                                      storage.delete(key: 'token');
+                                      Navigator.pushReplacement(context, MaterialPageRoute(builder: (builder)=>Login()));
+                                    },
+                                    child: Text('Logout'),
+                                    style: ButtonStyle(
+                                        foregroundColor: MaterialStateProperty.all(Colors.white),
+                                        backgroundColor: MaterialStateProperty.all(Colors.redAccent)
+                                    ),
+                                  )
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                      Container(
+                        child: GestureDetector(
+                          onTap: (){
+                            Navigator.of(context).push(MaterialPageRoute(builder: (c)=>MyCoursePage()));
+                          },
+                          child: ListTile(
+                            title: Text('My Courses'),
+                            trailing: Icon(FontAwesome.arrow_circle_o_right,color: Colors.greenAccent,),
+                          ),
+                        ),
+                      ),
+                      Container(
+                        child: GestureDetector(
+                          onTap: (){
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Coming Soon'),duration: Duration(seconds: 1),));
+                          },
+                          child: ListTile(
+                            title: Text('Apply for Examination'),
+                            trailing: Icon(FontAwesome.arrow_circle_o_right,color: Colors.greenAccent,),
+                          ),
+                        ),
+                      ),
+                      Container(
+                        child: GestureDetector(
+                          onTap: (){
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Coming Soon')));
+                          },
+                          child: ListTile(
+                            title: Text('Queries'),
+                            trailing: Icon(FontAwesome.arrow_circle_o_right,color: Colors.greenAccent,),
+                          ),
+                        ),
+                      )
+                    ],
                   ),
                 ),
-              ),
-              Container(
-                child: GestureDetector(
-                  onTap: (){
-                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Coming Soon')));
-                  },
-                  child: ListTile(
-                    title: Text('Apply for Examination'),
-                    trailing: Icon(FontAwesome.arrow_circle_o_right,color: Colors.greenAccent,),
+                appBar: AppBar(
+                  // title: SizedBox(
+                  //   height: 40,
+                  //     child: Image.network(
+                  //   'https://image.flaticon.com/icons/png/512/4019/4019707.png',
+                  //   fit: BoxFit.contain,
+                  // )),
+                  title: Container(
+                    height: 150,
+                    child:
+                    Image.network('http://computerzirna.in/storage/media/city.png'),
                   ),
+                  //title: Text('Computer Zirna',style: TextStyle(color: Colors.black),),
+                  actions: [
+                    Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 16),
+                        child: IconButton(
+                          onPressed: () => _scaffoldKey.currentState!.openEndDrawer(),
+                          icon: Icon(
+                            FontAwesome5.user_circle,
+                            color: Colors.redAccent,
+                          ),
+                        )),
+                    // Icon(Icons.window,color: Colors.redAccent,)
+                  ],
+                  backgroundColor: Colors.transparent,
+                  elevation: 0.0,
                 ),
-              ),
-              Container(
-                child: GestureDetector(
-                  onTap: (){
-                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Coming Soon')));
-                  },
-                  child: ListTile(
-                    title: Text('Queries'),
-                    trailing: Icon(FontAwesome.arrow_circle_o_right,color: Colors.greenAccent,),
-                  ),
-                ),
-              )
-            ],
-          ),
-        ),
-        appBar: AppBar(
-          // title: SizedBox(
-          //   height: 40,
-          //     child: Image.network(
-          //   'https://image.flaticon.com/icons/png/512/4019/4019707.png',
-          //   fit: BoxFit.contain,
-          // )),
-          title: Container(
-            height: 150,
-            child:
-                Image.network('http://computerzirna.in/storage/media/city.png'),
-          ),
-          //title: Text('Computer Zirna',style: TextStyle(color: Colors.black),),
-          actions: [
-            Padding(
-                padding: EdgeInsets.symmetric(horizontal: 16),
-                child: IconButton(
-                  onPressed: () => _scaffoldKey.currentState!.openEndDrawer(),
-                  icon: Icon(
-                    FontAwesome5.user_circle,
-                    color: Colors.redAccent,
-                  ),
-                )),
-            // Icon(Icons.window,color: Colors.redAccent,)
-          ],
-          backgroundColor: Colors.transparent,
-          elevation: 0.0,
-        ),
-        body: SingleChildScrollView(child: HomeScreenWidget()));
+                body: SingleChildScrollView(child: HomeScreenWidget()));
+
   }
 }

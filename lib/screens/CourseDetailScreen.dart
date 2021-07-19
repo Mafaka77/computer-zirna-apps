@@ -12,7 +12,6 @@ import 'package:http/http.dart' as http;
 import '../models/subject.dart';
 import '../widgets/CourseDetailWidget.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:google_fonts/google_fonts.dart';
 class Data{
   final int id;
   final String title;
@@ -33,6 +32,7 @@ class CourseDetailScreen extends StatefulWidget {
 }
 
 class _CourseDetailState extends State<CourseDetailScreen> {
+  late Future<List<Data>> courses;
   int c_id=0;
   late YoutubePlayerController _controller;
   late TextEditingController _idController;
@@ -45,6 +45,7 @@ class _CourseDetailState extends State<CourseDetailScreen> {
   bool _isPlayerReady = false;
   @override
   void initState() {
+    courses=_myData();
     //print(this.widget.name);
     var vidID;
     vidID = YoutubePlayer.convertUrlToId(widget.intro_url);
@@ -199,7 +200,8 @@ class _CourseDetailState extends State<CourseDetailScreen> {
                   child: Text(
                     '₹  ${widget.price.toString()}',
                     // style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
-                    style: GoogleFonts.saira(fontSize: 30,fontWeight: FontWeight.bold),
+                    style: TextStyle(fontSize: 30,fontWeight: FontWeight.bold)
+                    // GoogleFonts.saira(fontSize: 30,fontWeight: FontWeight.bold),
                   ),
                 ),
                 Container(
@@ -213,7 +215,7 @@ class _CourseDetailState extends State<CourseDetailScreen> {
                           MaterialStateProperty.all<Color>(Colors.redAccent),
                     ),
                     child:Text(
-                      'Already Puchased',
+                      'View Course',
                       style: TextStyle(fontSize: 20, color: Colors.black),
                     ),
                     onPressed: () => {
@@ -237,15 +239,15 @@ class _CourseDetailState extends State<CourseDetailScreen> {
                 ),
                 Container(
                   margin: EdgeInsets.only(top: 10),
-                  child: Text(
+                  child:const Text(
                     'Course Details',
                     style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                   ),
                 ),
                 Container(
                   margin: EdgeInsets.only(top: 10),
-                  width: 500,
-                  height: 5,
+                  width: MediaQuery.of(context).size.width,
+                  height: 3,
                   color: Colors.blueAccent,
                 ),
                 Container(
@@ -254,21 +256,21 @@ class _CourseDetailState extends State<CourseDetailScreen> {
                 ),
                 Container(
                   margin: EdgeInsets.only(top: 10),
-                  child: Text(
+                  child:const Text(
                     'Course Overview',
                     style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                   ),
                 ),
                 Container(
                   margin: EdgeInsets.only(top: 10),
-                  width: 500,
-                  height: 5,
+                  width: MediaQuery.of(context).size.width,
+                  height: 3,
                   color: Colors.blueAccent,
                 ),
                 Container(
                   margin: EdgeInsets.only(top: 10),
                   child:FutureBuilder(
-                    future: _myData(),
+                    future: courses,
                     builder: (BuildContext context, AsyncSnapshot snapshot){
                       print(snapshot);
                       if(snapshot.hasData){

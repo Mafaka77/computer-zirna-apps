@@ -1,3 +1,4 @@
+import 'package:computer_zirna/screens/AdsVideoViewScreen.dart';
 import 'package:flutter/material.dart';
 import '../widgets/CourseWidget.dart';
 import 'dart:async';
@@ -92,9 +93,10 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget> {
         return YoutubePlayerController(
           initialVideoId: videoID,
           flags: const YoutubePlayerFlags(
+
             disableDragSeek: true,
             autoPlay: false,
-            hideControls: false,
+            hideControls: true,
             isLive: false,
 
 
@@ -145,13 +147,13 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget> {
                   })),
           Container(
             margin: new EdgeInsets.only(top: 10),
-            child: Text(
+            child:const Text(
               'Our Courses',
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
           ),
           Container(
-            width: 500,
+            width: MediaQuery.of(context).size.width,
             height: 3,
             color: Colors.redAccent,
           ),
@@ -200,7 +202,7 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget> {
               )),
           Container(
             margin: EdgeInsets.only(top: 10),
-            child: Text(
+            child:const Text(
               'Promo Videos',
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
@@ -208,7 +210,7 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget> {
           Container(
             margin: EdgeInsets.only(top: 10),
             height: 3,
-            width: 500,
+            width: MediaQuery.of(context).size.width,
             color: Colors.amberAccent,
           ),
           Container(
@@ -219,23 +221,32 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget> {
               itemCount: thumbnail.length,
               scrollDirection: Axis.horizontal,
               shrinkWrap: true,
-              itemBuilder: (ctx, index) => Container(
-                color: Colors.white,
-                margin: EdgeInsets.only(right: 10),
-                width: 300,
-                  child: YoutubePlayer(
-                      key: ObjectKey(_controllersYoutube[index]),
-                      controller: _controllersYoutube[index],
-                      actionsPadding: const EdgeInsets.only(left: 16.0),
-                      bottomActions: [
-                        CurrentPosition(),
-                        ProgressBar(isExpanded: true),
-                        const SizedBox(width: 10.0),
-                        RemainingDuration(),
-
-                      ],
+              itemBuilder: (ctx, index) => GestureDetector(
+                onTap: (){
+                  print(thumbnail[index]);
+                  Navigator.of(context).push(MaterialPageRoute(builder: (builder)=>AdsVideoView(thumbnail[index])));
+                },
+                child: Container(
+                  color: Colors.white,
+                  margin: EdgeInsets.only(right: 10),
+                  width: 300,
+                    child: YoutubePlayerBuilder(
+                      builder: (c,i)=>Container(),
+                      player: YoutubePlayer(
+                          key: ObjectKey(_controllersYoutube[index]),
+                          controller: _controllersYoutube[index],
+                          actionsPadding: const EdgeInsets.only(left: 16.0),
+                          bottomActions: [
+                            CurrentPosition(),
+                            ProgressBar(isExpanded: true),
+                            const SizedBox(width: 10.0),
+                            RemainingDuration(),
+                            FullScreenButton()
+                          ],
+                        ),
                     ),
-                ),
+                  ),
+              ),
               ),
             ),
         ],

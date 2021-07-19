@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:google_fonts/google_fonts.dart';
+
 import 'dart:convert';
 import 'dart:io';
 import 'package:http/http.dart' as http;
@@ -44,11 +44,7 @@ class _LoginState extends State<Login> {
                         //   color: Colors.black38,
                         //   letterSpacing: 7.0,
                         // ),
-                        style: GoogleFonts.arapey(
-                          fontSize: 40,
-                          fontWeight: FontWeight.bold,
-                          letterSpacing: 4,
-                        ),
+                        style: TextStyle(fontSize: 40,letterSpacing: 5)
                       ),
                     ),
                   ),

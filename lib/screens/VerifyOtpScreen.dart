@@ -93,9 +93,14 @@ class _VerifyOtpState extends State<VerifyOtp> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
-                            Text(
-                              'Resend?',
-                              style: TextStyle(color: Colors.blueAccent),
+                            GestureDetector(
+                              onTap: (){
+                                resend();
+                              },
+                              child: Text(
+                                'Resend?',
+                                style: TextStyle(color: Colors.blueAccent),
+                              ),
                             ),
                           ],
                         ),
@@ -129,6 +134,29 @@ class _VerifyOtpState extends State<VerifyOtp> {
                 ),
         ));
   }
+  void resend() async{
+    String mob = this.widget.phone_no;
+    var url =
+    Uri.parse('http://computerzirna.in/api/auth/otp/resend?phone_no=$mob');
+    // Map data={'phone':this.phoneNumber};
+    // var body=jsonEncode(data);
+    print(url);
+    var response = await http
+        .get(url, headers: {HttpHeaders.contentTypeHeader: 'Application/json'});
+    //print(response);
+    if (response.statusCode == 200) {
+      var decode = jsonDecode(response.body);
+      //print(this.phoneNumber);
+      // Navigator.push(context, MaterialPageRoute(builder: (builder) {
+      //   return VerifyOtp(
+      //       otp: decode['otp'].toString(), phone_no: this.phoneNumber);
+      // }
+      // ));
+    } else {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text('Please Enter Phone Number')));
+    }
+  }
 
   void click() {
     // Navigator.of(context).pushReplacement(
@@ -156,16 +184,14 @@ class _VerifyOtpState extends State<VerifyOtp> {
     var decode = jsonDecode(response.body);
     if (response.statusCode == 200) {
       // Navigator.pop(context);
-      var a =
-          await storage.write(key: 'token', value: decode['data'].toString());
+      storage.write(key: 'token', value: decode['data'].toString());
       // var b=await storage.read(key: 'token');
       // print(b);
       Navigator.of(context).pushReplacement(MaterialPageRoute(
         builder: (c) => MainScreen(),
       ));
     } else {
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text('Error')));
+      return null;
     }
   }
 

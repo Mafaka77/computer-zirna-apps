@@ -1,3 +1,5 @@
+import 'package:computer_zirna/screens/PrivacyPolicyScreen.dart';
+import 'package:computer_zirna/screens/TermsScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 
@@ -37,28 +39,59 @@ class _AboutUsState extends State<AboutUs> {
                 )),
               ),
               Container(
-                child: Center(child: Text('Govt Approved Institution',style: TextStyle(fontSize: 16),)),
+                child: Center(child:const Text('Govt Approved Institution',style: TextStyle(fontSize: 16),)),
               ),
               Container(
-                margin: EdgeInsets.only(top: 20),
+                child: Center(child:const Text('Afilliated to MSCTE',style: TextStyle(fontSize: 16),)),
+              ),
+              Container(
+                color: Colors.black12,
+                margin: EdgeInsets.only(top: 20,left: 10,right: 10),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     Row(
                       children: [
                         Icon(FontAwesome.phone_square,color: Colors.greenAccent,),
-                        Text(' 9089527410')
+                        const Text(' 9089527410',style: TextStyle(fontSize: 15),)
                       ],
                     ),
                     Row(
                       children: [
                         Icon(FontAwesome.map_marker,color: Colors.indigo,),
-                        Text('Thakthing Bazar,Mission Veng')
+                       const Text('Thakthing Bazar,Mission Veng',style: TextStyle(fontSize: 15),)
                       ],
                     ),
                   ],
                 ),
+              ),
+              Container(
+                margin: EdgeInsets.only(top: 20),
+                child: InkWell(
+                  onTap: (){
+                     Navigator.of(context).push(MaterialPageRoute(builder: (builder)=>PrivacyPolicy()));
+                  },
+                  child: ListTile(
+                    title:const Text('Privacy Policy'),
+                  ),
+                ),
+              ),
+              Container(
+                child: InkWell(
+                  onTap: (){
+                    Navigator.of(context).push(MaterialPageRoute(builder: (builder)=>TermsScreen()));
+                  },
+                  child: ListTile(
+                    title:const Text('Terms & Conditions'),
+                  ),
+                ),
+              ),
+              Container(
+                child: ListTile(
+                  title:const Text('Payment Terms'),
+                ),
               )
+
             ],
           ),
         ),

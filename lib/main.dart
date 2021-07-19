@@ -8,7 +8,7 @@ import 'screens/LoginScreen.dart';
 import 'screens/VerifyOtpScreen.dart';
 import './screens/MainScreen.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:google_fonts/google_fonts.dart';
+
 String a;
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
