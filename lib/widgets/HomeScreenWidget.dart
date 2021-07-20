@@ -32,7 +32,7 @@ class HomeScreenWidget extends StatefulWidget {
 
 class _HomeScreenWidgetState extends State<HomeScreenWidget> {
   final storage = new FlutterSecureStorage();
-
+late Future<List<Data>> courseList;
   Future<List<Data>> _courseList() async {
     var auth_token = await storage.read(key: 'token');
     print(auth_token);
@@ -110,6 +110,7 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget> {
   @override
   void initState() {
     _adsData();
+    courseList=_courseList();
     super.initState();
   }
 
@@ -160,7 +161,7 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget> {
           Container(
               margin: new EdgeInsets.only(top: 10),
               child: FutureBuilder(
-                future: _courseList(),
+                future: courseList,
                 builder: (BuildContext context, AsyncSnapshot snapshot) {
                   print(snapshot);
                   // var data=snapshot.data!;
@@ -233,6 +234,7 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget> {
                     child: YoutubePlayerBuilder(
                       builder: (c,i)=>Container(),
                       player: YoutubePlayer(
+                        thumbnail: Icon(Icons.play_circle),
                           key: ObjectKey(_controllersYoutube[index]),
                           controller: _controllersYoutube[index],
                           actionsPadding: const EdgeInsets.only(left: 16.0),

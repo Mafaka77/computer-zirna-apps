@@ -1,7 +1,16 @@
+
 import 'package:flutter/material.dart';
+import 'package:flutter_icons/flutter_icons.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+class Data{
+  final String url;
+  Data(this.url);
+}
+
 class AdsVideoView extends StatefulWidget {
   final String vid_id;
  AdsVideoView(this.vid_id);
@@ -20,11 +29,56 @@ class _AdsVideoViewState extends State<AdsVideoView> {
   double _volume = 100;
   bool _muted = false;
   bool _isPlayerReady = false;
+  late Future<List<Data>> vidList;
+  late List<YoutubePlayerController> _controllersYoutube;
+  List thumbnail=[];
+  List ad=[];
+  List<dynamic> ads = [];
+  Future _adsData() async {
+    var url = Uri.parse('http://computerzirna.in/api/public/data');
+    var data = await http.get(url);
+    var jsonData = jsonDecode(data.body)['data']['banners'];
+    // var con=YoutubePlayer.convertUrlToId(jsonData);
+    print(jsonData);
+    setState(() {
+      for (var u in jsonData) {
+        thumbnail.add(u['url']);
+
+      }
+      for(var a in thumbnail){
+        ad.add(YoutubePlayer.convertUrlToId(a));
+        print(ad);
+      }
+      _controllersYoutube=ad.map<YoutubePlayerController>((videoID){
+        return YoutubePlayerController(
+            initialVideoId: videoID,
+            flags: const YoutubePlayerFlags(
+              disableDragSeek: true,
+              autoPlay: false,
+              hideControls: true,
+              isLive: false,
+            )
+        );
+      }).toList();
+    });
+
+  }
+  void clickVids(String url) async {
+    setState(() {
+      var kID;
+      kID = YoutubePlayer.convertUrlToId(url);
+      _controller.load(kID);
+      thumbnail.remove(kID);
+    });
+
+    //print(youtube_id);
+  }
   @override
   void initState() {
+    _adsData();
     //print(this.widget.name);
     super.initState();
-    SystemChrome.setPreferredOrientations([DeviceOrientation.landscapeLeft]);
+    //SystemChrome.setPreferredOrientations([DeviceOrientation.landscapeLeft]);
     var vidID;
     vidID = YoutubePlayer.convertUrlToId(widget.vid_id);
     //print(c_id.toString());
@@ -83,7 +137,7 @@ class _AdsVideoViewState extends State<AdsVideoView> {
       // onExitFullScreen: (){
       //   SystemChrome.setPreferredOrientations(DeviceOrientation.values);
       // },
-      player: YoutubePlayer(
+      player: YoutubePlayer( thumbnail: Center(child: Icon(FontAwesome.play_circle),),
         //actionsPadding: EdgeInsets.only(top: 50),
         aspectRatio: 18/9,
         controller: _controller,
@@ -109,7 +163,63 @@ class _AdsVideoViewState extends State<AdsVideoView> {
       ),
       builder: (context,player)=>Scaffold(
         appBar: AppBar(title: Text('VIDEOS'),),
-        body: player,
+        body:  SingleChildScrollView(
+          child: Container(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  player,
+               Container(
+                 margin: EdgeInsets.only(top: 10,left: 10),
+                 child: Text('Promo Videos',style: TextStyle(fontSize: 20,color: Colors.pinkAccent),),
+               ),
+                  Container(
+                    margin: EdgeInsets.only(top: 10),
+                    height: 3,
+                    width: MediaQuery.of(context).size.width,
+                    color: Colors.amberAccent,
+                  ),
+               Container(
+                      margin: EdgeInsets.only(top: 10),
+                      child: ListView.builder(
+                       physics: NeverScrollableScrollPhysics(),
+                        itemCount: thumbnail.length,
+                        scrollDirection: Axis.vertical,
+                        shrinkWrap: true,
+                        itemBuilder: (ctx, index) => GestureDetector(
+                          onTap: (){
+                            print(thumbnail[index]);
+                            clickVids(thumbnail[index]);
+                          },
+                          child: Container(
+                            color: Colors.white,
+                            margin: EdgeInsets.only(right: 10,bottom: 10,left: 10),
+                            height: 200,
+                            child: YoutubePlayerBuilder(
+                              builder: (c,i)=>Container(),
+                              player: YoutubePlayer(
+                                thumbnail: Icon(Icons.play_circle),
+                                key: ObjectKey(_controllersYoutube[index]),
+                                controller: _controllersYoutube[index],
+                                actionsPadding: const EdgeInsets.only(left: 16.0),
+                                bottomActions: [
+                                  CurrentPosition(),
+                                  ProgressBar(isExpanded: true),
+                                  const SizedBox(width: 10.0),
+                                  RemainingDuration(),
+                                  FullScreenButton()
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                ],
+              ),
+
+          ),
+        ),
         // body: SingleChildScrollView(
         //   child: Container(
         //     margin: EdgeInsets.all(15),

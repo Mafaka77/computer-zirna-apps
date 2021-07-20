@@ -69,7 +69,7 @@ class _MyCoursePageState extends State<MyCoursePage> {
                   snapshot.data[i].intro_url
                  ),
             );
-          } else if (snapshot.hasError) {
+          } else if (snapshot.data==null) {
             return Center(
               child: Text('No Course'),
             );

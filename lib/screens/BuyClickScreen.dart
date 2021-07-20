@@ -1,9 +1,11 @@
 import 'package:computer_zirna/screens/MainScreen.dart';
+import 'package:computer_zirna/screens/SplashScreen.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'dart:io';
 import 'dart:async';
 import 'package:flutter/services.dart';
+import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
 import 'package:razorpay_flutter/razorpay_flutter.dart';
@@ -166,7 +168,7 @@ class _BuyClickScreenState extends State<BuyClickScreen> {
         });
         openCheckout();
       } else {
-        print(response.body);
+       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content:Text('Please fill all the forms')));
       }
     } catch (e) {
       print(e);
@@ -216,8 +218,10 @@ class _BuyClickScreenState extends State<BuyClickScreen> {
       });
       if (res.statusCode == 200) {
         print(res.body);
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Payment Successful')));
+
         Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (b)=>PaymentSuccessScreen()));
+
+        //Navigator.pop(context);
       }else{
         print(res.body.toString());
       }
