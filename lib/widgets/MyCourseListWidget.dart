@@ -100,7 +100,7 @@ class _MyCourseListState extends State<MyCourseList> {
                                 setState(() {
                                   tabbedIndex=i;
                                   Navigator.of(context).push(MaterialPageRoute(builder: (builder)=>MyLession(
-                                      snapshot.data[i].id,snapshot.data[i].title,this.widget.intro_url)));
+                                      snapshot.data[i].id,snapshot.data[i].title,this.widget.intro_url,this.widget.id)));
                                 });
                               },
                               title: Text(snapshot.data[i].title),

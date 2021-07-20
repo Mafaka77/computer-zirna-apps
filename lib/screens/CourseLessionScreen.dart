@@ -25,8 +25,9 @@ class MyLession extends StatefulWidget {
   final int id;
   final String title;
   final String intro_url;
+  final int c_id;
 
-  MyLession(this.id, this.title,this.intro_url);
+  MyLession(this.id, this.title,this.intro_url,this.c_id);
 
   @override
   _MyLessionState createState() => _MyLessionState();
@@ -184,7 +185,7 @@ class _MyLessionState extends State<MyLession> {
           child: TextButton(
             onPressed: () {
               Navigator.of(context).push(MaterialPageRoute(
-                  builder: (builder) => StudyMaterials(this.widget.id)));
+                  builder: (builder) => StudyMaterials(this.widget.c_id)));
             },
             child: Text(
               'Study Materials',

@@ -22,12 +22,30 @@ class BuyClickScreen extends StatefulWidget {
 }
 
 class _BuyClickScreenState extends State<BuyClickScreen> {
+  DateTime currentDate = DateTime.now();
+  Future<void> _selectDate(BuildContext context) async {
+    final DateTime? pickedDate = await showDatePicker(
+        context: context,
+        initialDate: currentDate,
+        firstDate: DateTime(1900),
+        lastDate: DateTime(2050));
+    if (pickedDate != null && pickedDate != currentDate)
+      setState(() {
+        currentDate = pickedDate;
+        _dobController.value=_dobController.value.copyWith(
+          text: currentDate.toString(),
+          selection: TextSelection.collapsed(offset: _dobController.value.selection.baseOffset + currentDate.toString().length,),
+        );
+      });
+
+  }
   String order_id = '';
   int sub_id = 0;
 
   final _fullNameController = TextEditingController();
   final _fatherNameController = TextEditingController();
   final _addressController = TextEditingController();
+  final _dobController=TextEditingController();
   static const platform = const MethodChannel("razorpay_flutter");
 
   late Razorpay _razorpay;
@@ -92,6 +110,29 @@ class _BuyClickScreenState extends State<BuyClickScreen> {
                   ),
                 ),
               ),
+               Container(
+                  margin: EdgeInsets.only(bottom: 15),
+                  child: Row(
+                    children: [
+                      Container(
+                        width: MediaQuery.of(context).size.width-80,
+                        child: TextField(
+                          controller: _dobController,
+                          decoration: InputDecoration(
+                            labelText: 'Enter Date of Birth',
+                            hintText: '0000-00-00',
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                          ),
+                        ),
+                      ),
+                      IconButton(onPressed: (){
+                          _selectDate(context);
+                      }, icon: Icon(Icons.calendar_today_outlined))
+                    ],
+                  ),
+                ),
               Container(
                 margin: EdgeInsets.only(bottom: 15),
                 child: TextField(
@@ -146,12 +187,14 @@ class _BuyClickScreenState extends State<BuyClickScreen> {
       String fullName = _fullNameController.text;
       String fatherName = _fatherNameController.text;
       String address = _addressController.text;
+      String dob=_dobController.text;
       final storage = new FlutterSecureStorage();
       var token = await storage.read(key: 'token');
       var url = Uri.parse('http://computerzirna.in/api/subscription/create');
       final response = await http.post(url, body: {
         'full_name': fullName,
         'father_name': fatherName,
+        'dob':dob,
         'address': address,
         'course_id':a.toString()
       }, headers: {

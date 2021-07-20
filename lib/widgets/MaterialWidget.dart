@@ -15,19 +15,23 @@ class MaterialWidget extends StatefulWidget {
   final String title;
   final String description;
   final String path;
+  final String category;
 
-  MaterialWidget(this.id, this.title, this.description, this.path);
+  MaterialWidget(
+      this.id,this.title,this.description,this.path,this.category);
 
   @override
   _MaterialWidgetState createState() => _MaterialWidgetState();
 }
 
 class _MaterialWidgetState extends State<MaterialWidget> {
-  String p='';
-  Future <void> _openFile() async{
-    final _results=await OpenFile.open(p);
+  String p = '';
+
+  Future<void> _openFile() async {
+    final _results = await OpenFile.open(p);
     //print(_results.message);
-}
+  }
+
   Future downloads(Dio dio, String url, String savePath) async {
     final storage = new Storage.FlutterSecureStorage();
     var token = await storage.read(key: 'token');
@@ -37,7 +41,7 @@ class _MaterialWidgetState extends State<MaterialWidget> {
     } else {
       try {
         setState(() {
-          p=savePath.toString();
+          p = savePath.toString();
         });
         Response response = await dio.get(
           url,
@@ -56,7 +60,10 @@ class _MaterialWidgetState extends State<MaterialWidget> {
         // response.data is List<int> type
         raf.writeFromSync(response.data);
         await raf.close();
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Downloading....'),duration: Duration(seconds: 3),));
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text('Downloading....'),
+          duration: Duration(seconds: 3),
+        ));
         if (response.statusCode == 200) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
@@ -68,11 +75,14 @@ class _MaterialWidgetState extends State<MaterialWidget> {
                     Container(
                       margin: EdgeInsets.only(right: 10),
                       child: InkWell(
-                        onTap: (){
+                        onTap: () {
                           //print(savePath);
                           _openFile();
                         },
-                        child: Text('View',style: TextStyle(color: Colors.red,fontSize: 18),),
+                        child: Text(
+                          'View',
+                          style: TextStyle(color: Colors.red, fontSize: 18),
+                        ),
                       ),
                     )
                   ],
@@ -80,8 +90,9 @@ class _MaterialWidgetState extends State<MaterialWidget> {
               ),
             ),
           );
-        }else{
-          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Downloading error!! Try again!!')));
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text('Downloading error!! Try again!!')));
         }
       } catch (e) {
         print(e);
@@ -94,10 +105,16 @@ class _MaterialWidgetState extends State<MaterialWidget> {
       print((received / total * 100).toStringAsFixed(0) + "%");
     }
   }
-
+@override
+  void initState() {
+    // TODO: implement initState
+  print(this.widget.id);
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return
+      Container(
       child: InkWell(
         onTap: () async {
           var path = await ExtStorage.getExternalStoragePublicDirectory(
@@ -112,7 +129,7 @@ class _MaterialWidgetState extends State<MaterialWidget> {
           String result=res.toString();
           print(result);
           String fullPath =
-              path + '/'+ ran.nextInt(10000).toString() + result;
+              path + '/'+'computerzirna' +  ran.nextInt(10000).toString() + result;
           print('full path ${fullPath}');
           final int i = this.widget.id;
           final String matUrl = 'http://computerzirna.in/api/material/$i';
