@@ -18,7 +18,7 @@ class MaterialWidget extends StatefulWidget {
   final String category;
 
   MaterialWidget(
-      this.id,this.title,this.description,this.path,this.category);
+      this.id, this.title, this.description, this.path, this.category);
 
   @override
   _MaterialWidgetState createState() => _MaterialWidgetState();
@@ -105,16 +105,17 @@ class _MaterialWidgetState extends State<MaterialWidget> {
       print((received / total * 100).toStringAsFixed(0) + "%");
     }
   }
-@override
+
+  @override
   void initState() {
     // TODO: implement initState
-  print(this.widget.id);
+    print(this.widget.id);
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
-    return
-      Container(
+    return Container(
       child: InkWell(
         onTap: () async {
           var path = await ExtStorage.getExternalStoragePublicDirectory(
@@ -124,12 +125,15 @@ class _MaterialWidgetState extends State<MaterialWidget> {
           Random ran = new Random();
           const chars = 'computerzirna-materials';
 
-          String a=this.widget.path.toString();
-          String res=a.substring(10);
-          String result=res.toString();
+          String a = this.widget.path.toString();
+          String res = a.substring(10);
+          String result = res.toString();
           print(result);
-          String fullPath =
-              path + '/'+'computerzirna' +  ran.nextInt(10000).toString() + result;
+          String fullPath = path +
+              '/' +
+              'computerzirna' +
+              ran.nextInt(10000).toString() +
+              result;
           print('full path ${fullPath}');
           final int i = this.widget.id;
           final String matUrl = 'http://computerzirna.in/api/material/$i';

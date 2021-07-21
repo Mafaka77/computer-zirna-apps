@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-
 import 'dart:convert';
 import 'dart:io';
 import 'package:http/http.dart' as http;
@@ -32,20 +31,20 @@ class _LoginState extends State<Login> {
                   Container(
                       width: 150,
                       // child: Text('LOGIN',style: TextStyle(fontSize: 30,fontWeight: FontWeight.bold),),
-                      child: Image(image: AssetImage('images/locksmith.png'),)),
+                      child: Image(
+                        image: AssetImage('images/locksmith.png'),
+                      )),
                   Center(
                     child: Container(
                       margin: EdgeInsets.only(top: 30),
-                      child: Text(
-                        'LOGIN',
-                        // style: TextStyle(
-                        //   fontSize: 50,
-                        //   fontWeight: FontWeight.bold,
-                        //   color: Colors.black38,
-                        //   letterSpacing: 7.0,
-                        // ),
-                        style: TextStyle(fontSize: 40,letterSpacing: 5)
-                      ),
+                      child: Text('LOGIN',
+                          // style: TextStyle(
+                          //   fontSize: 50,
+                          //   fontWeight: FontWeight.bold,
+                          //   color: Colors.black38,
+                          //   letterSpacing: 7.0,
+                          // ),
+                          style: TextStyle(fontSize: 40, letterSpacing: 5)),
                     ),
                   ),
                   Container(
@@ -111,12 +110,11 @@ class _LoginState extends State<Login> {
     String mob = this.phoneNumber;
     var url =
         Uri.parse('http://computerzirna.in/api/auth/otp/send?phone_no=$mob');
-    // Map data={'phone':this.phoneNumber};
-    // var body=jsonEncode(data);
+
     print(url);
     var response = await http
         .get(url, headers: {HttpHeaders.contentTypeHeader: 'Application/json'});
-    //print(response);
+
     if (response.statusCode == 200) {
       var decode = jsonDecode(response.body);
       print(this.phoneNumber);

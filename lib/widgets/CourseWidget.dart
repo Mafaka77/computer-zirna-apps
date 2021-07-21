@@ -27,7 +27,7 @@ class CourseWidget extends StatelessWidget {
         ),
         // child: Text('sadsad'),
         footer: GridTileBar(
-          backgroundColor: Colors.black54,
+          backgroundColor: Colors.white24,
           title: Text(
             name,
             textAlign: TextAlign.center,

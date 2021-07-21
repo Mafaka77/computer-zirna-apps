@@ -9,7 +9,7 @@ class CourseDetailWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
+    return Container(
       child: ListTile(
         title: Text(title),
         subtitle: Text(description),

@@ -1,6 +1,7 @@
 import 'package:computer_zirna/screens/MainScreen.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
+
 class PaymentSuccessScreen extends StatefulWidget {
   const PaymentSuccessScreen({Key? key}) : super(key: key);
 
@@ -12,12 +13,9 @@ class _PaymentSuccessScreenState extends State<PaymentSuccessScreen> {
   @override
   void initState() {
     // TODO: implement initState
-    // Timer(
-    //     Duration(seconds: 1),
-    //         () => Navigator.of(context).pushReplacement(MaterialPageRoute(
-    //         builder: (BuildContext context) => MainScreen())));
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

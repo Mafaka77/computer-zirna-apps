@@ -4,6 +4,7 @@ import 'dart:async';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:double_back_to_close_app/double_back_to_close_app.dart';
 
 class Data {
   final int id;
@@ -12,7 +13,8 @@ class Data {
   final String thumbnail_url;
   final String intro_url;
 
-  Data(this.id, this.name, this.description, this.thumbnail_url,this.intro_url);
+  Data(
+      this.id, this.name, this.description, this.thumbnail_url, this.intro_url);
 }
 
 class MyCoursePage extends StatefulWidget {
@@ -24,6 +26,7 @@ class MyCoursePage extends StatefulWidget {
 
 class _MyCoursePageState extends State<MyCoursePage> {
   late Future<List<Data>> courses;
+
   Future<List<Data>> _courseData() async {
     final storage = new FlutterSecureStorage();
     var token = await storage.read(key: 'token');
@@ -32,17 +35,18 @@ class _MyCoursePageState extends State<MyCoursePage> {
     var response = json.decode(data.body)['data'];
     List<Data> course = [];
     for (var u in response) {
-      Data da = Data(u['id'], u['name'], u['description'], u['thumbnail_url'],u['intro_url']);
+      Data da = Data(u['id'], u['name'], u['description'], u['thumbnail_url'],
+          u['intro_url']);
       course.add(da);
     }
     return course;
   }
+
   @override
   void initState() {
     // TODO: implement initState
-    courses=_courseData();
+    courses = _courseData();
     super.initState();
-
   }
 
   @override
@@ -52,33 +56,38 @@ class _MyCoursePageState extends State<MyCoursePage> {
         title: Text('My Course'),
         automaticallyImplyLeading: false,
       ),
-      body: Container(
-          child: FutureBuilder(
-        future: courses,
-        builder: (BuildContext context, AsyncSnapshot snapshot) {
-          if (snapshot.hasData) {
-            return ListView.builder(
-              shrinkWrap: true,
-              itemCount: snapshot.data.length,
-              physics: NeverScrollableScrollPhysics(),
-              itemBuilder: (c, i) => MyCourseList(
-                  snapshot.data[i].id,
-                  snapshot.data[i].name,
-                  snapshot.data[i].description,
-                  snapshot.data[i].thumbnail_url,
-                  snapshot.data[i].intro_url
-                 ),
-            );
-          } else if (snapshot.data==null) {
+      body: DoubleBackToCloseApp(
+        snackBar: const SnackBar(
+          content: Text('Press back button again to exit!!'),
+          duration: Duration(milliseconds: 400),
+        ),
+        child: Container(
+            child: FutureBuilder(
+          future: courses,
+          builder: (BuildContext context, AsyncSnapshot snapshot) {
+            if (snapshot.hasData) {
+              return ListView.builder(
+                shrinkWrap: true,
+                itemCount: snapshot.data.length,
+                physics: NeverScrollableScrollPhysics(),
+                itemBuilder: (c, i) => MyCourseList(
+                    snapshot.data[i].id,
+                    snapshot.data[i].name,
+                    snapshot.data[i].description,
+                    snapshot.data[i].thumbnail_url,
+                    snapshot.data[i].intro_url),
+              );
+            } else if (snapshot.hasError) {
+              return Center(
+                child: Text('No Course'),
+              );
+            }
             return Center(
-              child: Text('No Course'),
+              child: CircularProgressIndicator(),
             );
-          }
-          return Center(
-            child: CircularProgressIndicator(),
-          );
-        },
-      )),
+          },
+        )),
+      ),
     );
   }
 }

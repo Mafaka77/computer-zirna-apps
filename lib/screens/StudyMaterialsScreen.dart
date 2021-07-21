@@ -1,4 +1,3 @@
-import 'package:computer_zirna/main.dart';
 import 'package:computer_zirna/widgets/MaterialWidget.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -95,7 +94,7 @@ class _StudyMaterialsState extends State<StudyMaterials> {
         child: Column(
           children: [
             ExpansionTile(
-              title: Text('Materials'),
+              title: Text('Suggestion'),
               children: [
                 Container(
                   child: FutureBuilder(
@@ -126,28 +125,31 @@ class _StudyMaterialsState extends State<StudyMaterials> {
               ],
             ),
             ExpansionTile(
-              title: Text('Practical Works'),
+              title: Text('Practical Assignment'),
               children: [
                 Container(
                   child: FutureBuilder(
                     future: getcat,
-                    builder: (BuildContext context,AsyncSnapshot snapshot){
-                      if(snapshot.hasData){
+                    builder: (BuildContext context, AsyncSnapshot snapshot) {
+                      if (snapshot.hasData) {
                         return ListView.builder(
-                          shrinkWrap: true,
-                          physics: NeverScrollableScrollPhysics(),
-                          itemCount: snapshot.data.length,
-                          itemBuilder: (c,i)=>MaterialWidget(
-                            snapshot.data[i].id,
-                            snapshot.data[i].title,
-                            snapshot.data[i].description,
-                            snapshot.data[i].path,
-                            snapshot.data[i].category
-                          )
+                            shrinkWrap: true,
+                            physics: NeverScrollableScrollPhysics(),
+                            itemCount: snapshot.data.length,
+                            itemBuilder: (c, i) => MaterialWidget(
+                                snapshot.data[i].id,
+                                snapshot.data[i].title,
+                                snapshot.data[i].description,
+                                snapshot.data[i].path,
+                                snapshot.data[i].category));
+                      } else if (snapshot.hasError) {
+                        return Center(
+                          child: Text('No Data'),
                         );
-                      }else if(snapshot.hasError){
-                        return Center(child: Text('No Data'),);
-                      }return Center(child: CircularProgressIndicator(),);
+                      }
+                      return Center(
+                        child: CircularProgressIndicator(),
+                      );
                     },
                   ),
                 ),

@@ -38,7 +38,7 @@ class _MyAccountPageState extends State<MyAccountPage> {
 
   Future<Data> _myData() async {
     var auth_token = await storage.read(key: 'token');
-   // print(auth_token);
+    // print(auth_token);
     // var token='70|sblqr7H2YVsJaM64qCHVvna8lEpV89OrQ3SYqUN2';
     var url = Uri.parse('http://computerzirna.in/api/profile/me');
     var response = await http.get(url, headers: {
@@ -54,6 +54,7 @@ class _MyAccountPageState extends State<MyAccountPage> {
   }
 
   late Future<Data> futureData;
+
   @override
   void initState() {
     // TODO: implement initState
@@ -90,8 +91,10 @@ class _MyAccountPageState extends State<MyAccountPage> {
                     Center(
                       child: Container(
                         margin: EdgeInsets.only(top: 15),
-                        child: Text((snapshot.data!.name)==null?'Welcome:Users':
-                          'Welcome :${snapshot.data!.name}',
+                        child: Text(
+                          (snapshot.data!.name) == null
+                              ? 'Welcome:Users'
+                              : 'Welcome :${snapshot.data!.name}',
                           style: TextStyle(fontSize: 20),
                         ),
                       ),
@@ -122,10 +125,14 @@ class _MyAccountPageState extends State<MyAccountPage> {
                   ],
                 ),
               );
-            }else if(snapshot.hasError){
-              return Center(child: Text('Error'),);
+            } else if (snapshot.hasError) {
+              return Center(
+                child: Text('Error'),
+              );
             }
-            return Center(child: CircularProgressIndicator(),);
+            return Center(
+              child: CircularProgressIndicator(),
+            );
           },
         ),
       ),

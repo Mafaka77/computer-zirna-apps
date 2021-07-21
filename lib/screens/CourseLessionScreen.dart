@@ -1,7 +1,5 @@
-import 'package:computer_zirna/main.dart';
 import 'package:computer_zirna/screens/StudyMaterialsScreen.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_icons/flutter_icons.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'dart:async';
@@ -21,35 +19,33 @@ class Data {
 
   Data(this.id, this.title, this.description, this.video_url);
 }
+
 class MyLession extends StatefulWidget {
   final int id;
   final String title;
   final String intro_url;
   final int c_id;
 
-  MyLession(this.id, this.title,this.intro_url,this.c_id);
+  MyLession(this.id, this.title, this.intro_url, this.c_id);
 
   @override
   _MyLessionState createState() => _MyLessionState();
 }
 
 class _MyLessionState extends State<MyLession> {
-  // late Future<List<Subjects>> subjects;
   late Future<List<Data>> courses;
   late int tabbedIndex;
-
-  // var icourses;
   String youtube_id = '';
   var vid;
   int s_id = 0;
+
   Future<List<Data>> _myCourses() async {
     final storage = new FlutterSecureStorage();
     var token = await storage.read(key: 'token');
     //var a=this.widget.id;
     //print(subject_id);
-    var id=this.widget.id;
-    var url =
-        Uri.parse('http://computerzirna.in/api/subjects/$id/videos');
+    var id = this.widget.id;
+    var url = Uri.parse('http://computerzirna.in/api/subjects/$id/videos');
     var response =
         await http.get(url, headers: {'Authorization': 'Bearer $token'});
     List<Data> vids = [];
@@ -59,7 +55,6 @@ class _MyLessionState extends State<MyLession> {
       Data da = Data(v['id'], v['title'], v['description'], v['video_url']);
       vids.add(da);
     }
-    //print(vids.toString());
     return vids;
   }
 
@@ -79,16 +74,12 @@ class _MyLessionState extends State<MyLession> {
 
   @override
   void initState() {
-    tabbedIndex=-1;
-    // subjects = _mySubjects();
+    tabbedIndex = -1;
     courses = _myCourses();
     secureScreen();
-    //print(this.widget.name);
-    // SystemChrome.setPreferredOrientations([DeviceOrientation.landscapeLeft]);
     var vidID;
     vidID = YoutubePlayer.convertUrlToId(this.widget.intro_url);
     vid = vidID;
-    //print(c_id.toString());
     super.initState();
     _controller = YoutubePlayerController(
       initialVideoId: vidID,
@@ -177,7 +168,7 @@ class _MyLessionState extends State<MyLession> {
       ),
       builder: (context, player) => Scaffold(
         appBar: AppBar(
-          title: Text('sdd'),
+          title: Text(this.widget.title),
         ),
         bottomSheet: Container(
           color: Colors.pinkAccent,
@@ -200,8 +191,11 @@ class _MyLessionState extends State<MyLession> {
               children: [
                 player,
                 Container(
-                  margin: EdgeInsets.only(top: 20,left: 5),
-                  child: Text(this.widget.title,style: TextStyle(fontSize: 20),),
+                  margin: EdgeInsets.only(top: 20, left: 5),
+                  child: Text(
+                    this.widget.title,
+                    style: TextStyle(fontSize: 20),
+                  ),
                 ),
                 Container(
                   margin: EdgeInsets.only(top: 10),
@@ -220,18 +214,23 @@ class _MyLessionState extends State<MyLession> {
                           physics: NeverScrollableScrollPhysics(),
                           itemBuilder: (c, i) => Container(
                             margin: EdgeInsets.only(top: 10),
-                              color: tabbedIndex==i ? Colors.lightBlueAccent : null,
-                              child: ListTile(
-                                onTap: (){
-                                  setState(() {
-                                    tabbedIndex=i;
-                                    clickVids(snapshot.data[i].video_url);
-                                  });
-                                },
-                                title: Text(snapshot.data[i].title),
-                                subtitle: Text(snapshot.data[i].description),
-                                trailing: Icon(Icons.play_circle,color: Colors.redAccent,),
+                            color: tabbedIndex == i
+                                ? Colors.lightBlueAccent
+                                : null,
+                            child: ListTile(
+                              onTap: () {
+                                setState(() {
+                                  tabbedIndex = i;
+                                  clickVids(snapshot.data[i].video_url);
+                                });
+                              },
+                              title: Text(snapshot.data[i].title),
+                              subtitle: Text(snapshot.data[i].description),
+                              trailing: Icon(
+                                Icons.play_circle,
+                                color: Colors.redAccent,
                               ),
+                            ),
                           ),
                         );
                       } else if (snapshot.hasError) {

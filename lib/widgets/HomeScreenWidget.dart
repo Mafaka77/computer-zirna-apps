@@ -10,7 +10,6 @@ import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 
-
 class Data {
   final int id;
   final String name;
@@ -32,7 +31,8 @@ class HomeScreenWidget extends StatefulWidget {
 
 class _HomeScreenWidgetState extends State<HomeScreenWidget> {
   final storage = new FlutterSecureStorage();
-late Future<List<Data>> courseList;
+  late Future<List<Data>> courseList;
+
   Future<List<Data>> _courseList() async {
     var auth_token = await storage.read(key: 'token');
     print(auth_token);
@@ -61,7 +61,7 @@ late Future<List<Data>> courseList;
     var url = Uri.parse('http://computerzirna.in/api/public/data');
     var data = await http.get(url);
     var jsonData = jsonDecode(data.body)['data']['corousel'];
-   //print(jsonData[0]);
+    //print(jsonData[0]);
 
     for (var u in jsonData) {
       slider.add(NetworkImage(u));
@@ -70,10 +70,11 @@ late Future<List<Data>> courseList;
     return jsonData;
   }
 
-   List ad=[];
-  List thumbnail=[];
+  List ad = [];
+  List thumbnail = [];
   late List<YoutubePlayerController> _controllersYoutube;
   List<dynamic> ads = [];
+
   Future _adsData() async {
     var url = Uri.parse('http://computerzirna.in/api/public/data');
     var data = await http.get(url);
@@ -83,34 +84,28 @@ late Future<List<Data>> courseList;
     setState(() {
       for (var u in jsonData) {
         thumbnail.add(u['url']);
-
       }
-      for(var a in thumbnail){
+      for (var a in thumbnail) {
         ad.add(YoutubePlayer.convertUrlToId(a));
         print(ad);
       }
-      _controllersYoutube=ad.map<YoutubePlayerController>((videoID){
+      _controllersYoutube = ad.map<YoutubePlayerController>((videoID) {
         return YoutubePlayerController(
-          initialVideoId: videoID,
-          flags: const YoutubePlayerFlags(
-
-            disableDragSeek: true,
-            autoPlay: false,
-            hideControls: true,
-            isLive: false,
-
-
-          )
-        );
+            initialVideoId: videoID,
+            flags: const YoutubePlayerFlags(
+              disableDragSeek: true,
+              autoPlay: false,
+              hideControls: true,
+              isLive: false,
+            ));
       }).toList();
     });
-
   }
 
   @override
   void initState() {
     _adsData();
-    courseList=_courseList();
+    courseList = _courseList();
     super.initState();
   }
 
@@ -133,7 +128,7 @@ late Future<List<Data>> courseList;
                           child: Carousel(
                             images: slider,
                             boxFit: BoxFit.cover,
-                            animationCurve: Curves.fastOutSlowIn,
+                            animationCurve: Curves.bounceInOut,
                             animationDuration: Duration(milliseconds: 1000),
                             showIndicator: false,
                           ),
@@ -148,7 +143,7 @@ late Future<List<Data>> courseList;
                   })),
           Container(
             margin: new EdgeInsets.only(top: 10),
-            child:const Text(
+            child: const Text(
               'Our Courses',
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
@@ -175,7 +170,6 @@ late Future<List<Data>> courseList;
                               SliverGridDelegateWithFixedCrossAxisCount(
                                   crossAxisCount: 2,
                                   childAspectRatio: 3 / 2,
-                                  crossAxisSpacing: 10,
                                   mainAxisSpacing: 10),
                           itemCount: snapshot.data.length,
                           itemBuilder: (BuildContext context, int index) {
@@ -203,13 +197,13 @@ late Future<List<Data>> courseList;
               )),
           Container(
             margin: EdgeInsets.only(top: 10),
-            child:const Text(
+            child: const Text(
               'Promo Videos',
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
           ),
           Container(
-            margin: EdgeInsets.only(top: 10),
+            margin: EdgeInsets.only(),
             height: 3,
             width: MediaQuery.of(context).size.width,
             color: Colors.amberAccent,
@@ -223,34 +217,35 @@ late Future<List<Data>> courseList;
               scrollDirection: Axis.horizontal,
               shrinkWrap: true,
               itemBuilder: (ctx, index) => GestureDetector(
-                onTap: (){
+                onTap: () {
                   print(thumbnail[index]);
-                  Navigator.of(context).push(MaterialPageRoute(builder: (builder)=>AdsVideoView(thumbnail[index])));
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (builder) => AdsVideoView(thumbnail[index])));
                 },
                 child: Container(
                   color: Colors.white,
                   margin: EdgeInsets.only(right: 10),
                   width: 300,
-                    child: YoutubePlayerBuilder(
-                      builder: (c,i)=>Container(),
-                      player: YoutubePlayer(
-                        thumbnail: Icon(Icons.play_circle),
-                          key: ObjectKey(_controllersYoutube[index]),
-                          controller: _controllersYoutube[index],
-                          actionsPadding: const EdgeInsets.only(left: 16.0),
-                          bottomActions: [
-                            CurrentPosition(),
-                            ProgressBar(isExpanded: true),
-                            const SizedBox(width: 10.0),
-                            RemainingDuration(),
-                            FullScreenButton()
-                          ],
-                        ),
+                  child: YoutubePlayerBuilder(
+                    builder: (c, i) => Container(),
+                    player: YoutubePlayer(
+                      thumbnail: Icon(Icons.play_circle),
+                      key: ObjectKey(_controllersYoutube[index]),
+                      controller: _controllersYoutube[index],
+                      actionsPadding: const EdgeInsets.only(left: 16.0),
+                      bottomActions: [
+                        CurrentPosition(),
+                        ProgressBar(isExpanded: true),
+                        const SizedBox(width: 10.0),
+                        RemainingDuration(),
+                        FullScreenButton()
+                      ],
                     ),
                   ),
-              ),
+                ),
               ),
             ),
+          ),
         ],
       ),
     );

@@ -1,11 +1,8 @@
-import 'package:computer_zirna/screens/MainScreen.dart';
-import 'package:computer_zirna/screens/SplashScreen.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'dart:io';
 import 'dart:async';
 import 'package:flutter/services.dart';
-import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
 import 'package:razorpay_flutter/razorpay_flutter.dart';
@@ -15,6 +12,7 @@ import '../screens/PaymentSuccessScreen.dart';
 class BuyClickScreen extends StatefulWidget {
   // const BuyClickScreen({Key? key}) : super(key: key);
   final int id;
+
   BuyClickScreen(this.id);
 
   @override
@@ -23,6 +21,7 @@ class BuyClickScreen extends StatefulWidget {
 
 class _BuyClickScreenState extends State<BuyClickScreen> {
   DateTime currentDate = DateTime.now();
+
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? pickedDate = await showDatePicker(
         context: context,
@@ -32,20 +31,23 @@ class _BuyClickScreenState extends State<BuyClickScreen> {
     if (pickedDate != null && pickedDate != currentDate)
       setState(() {
         currentDate = pickedDate;
-        _dobController.value=_dobController.value.copyWith(
+        _dobController.value = _dobController.value.copyWith(
           text: currentDate.toString(),
-          selection: TextSelection.collapsed(offset: _dobController.value.selection.baseOffset + currentDate.toString().length,),
+          selection: TextSelection.collapsed(
+            offset: _dobController.value.selection.baseOffset +
+                currentDate.toString().length,
+          ),
         );
       });
-
   }
+
   String order_id = '';
   int sub_id = 0;
 
   final _fullNameController = TextEditingController();
   final _fatherNameController = TextEditingController();
   final _addressController = TextEditingController();
-  final _dobController=TextEditingController();
+  final _dobController = TextEditingController();
   static const platform = const MethodChannel("razorpay_flutter");
 
   late Razorpay _razorpay;
@@ -110,29 +112,31 @@ class _BuyClickScreenState extends State<BuyClickScreen> {
                   ),
                 ),
               ),
-               Container(
-                  margin: EdgeInsets.only(bottom: 15),
-                  child: Row(
-                    children: [
-                      Container(
-                        width: MediaQuery.of(context).size.width-80,
-                        child: TextField(
-                          controller: _dobController,
-                          decoration: InputDecoration(
-                            labelText: 'Enter Date of Birth',
-                            hintText: '0000-00-00',
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
-                            ),
+              Container(
+                margin: EdgeInsets.only(bottom: 15),
+                child: Row(
+                  children: [
+                    Container(
+                      width: MediaQuery.of(context).size.width - 80,
+                      child: TextField(
+                        controller: _dobController,
+                        decoration: InputDecoration(
+                          labelText: 'Enter Date of Birth',
+                          hintText: '0000-00-00',
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
                           ),
                         ),
                       ),
-                      IconButton(onPressed: (){
+                    ),
+                    IconButton(
+                        onPressed: () {
                           _selectDate(context);
-                      }, icon: Icon(Icons.calendar_today_outlined))
-                    ],
-                  ),
+                        },
+                        icon: Icon(Icons.calendar_today_outlined))
+                  ],
                 ),
+              ),
               Container(
                 margin: EdgeInsets.only(bottom: 15),
                 child: TextField(
@@ -151,7 +155,7 @@ class _BuyClickScreenState extends State<BuyClickScreen> {
                   height: 50,
                   child: TextButton(
                     onPressed: () => {submit()},
-                    child:const Text(
+                    child: const Text(
                       'Proceed to Checkout',
                       style: TextStyle(fontSize: 20),
                     ),
@@ -165,13 +169,15 @@ class _BuyClickScreenState extends State<BuyClickScreen> {
               ),
               Container(
                 margin: EdgeInsets.only(top: 15),
-                child:const Text('Important Notes:'),
+                child: const Text('Important Notes:'),
               ),
               ListTile(
-                title:const Text('1. He Course hi vawi 1 i lei hian Kum 1 zel a dam a ni.'),
+                title: const Text(
+                    '1. He Course hi vawi 1 i lei hian Kum 1 zel a dam a ni.'),
               ),
               ListTile(
-                title:const Text('2. Exam form fill up hun tur information in pek a ni ang.'),
+                title: const Text(
+                    '2. Exam form fill up hun tur information in pek a ni ang.'),
               ),
             ],
           ),
@@ -181,22 +187,22 @@ class _BuyClickScreenState extends State<BuyClickScreen> {
   }
 
   void submit() async {
-    var a=this.widget.id;
+    var a = this.widget.id;
     try {
       // print('hello');
       String fullName = _fullNameController.text;
       String fatherName = _fatherNameController.text;
       String address = _addressController.text;
-      String dob=_dobController.text;
+      String dob = _dobController.text;
       final storage = new FlutterSecureStorage();
       var token = await storage.read(key: 'token');
       var url = Uri.parse('http://computerzirna.in/api/subscription/create');
       final response = await http.post(url, body: {
         'full_name': fullName,
         'father_name': fatherName,
-        'dob':dob,
+        'dob': dob,
         'address': address,
-        'course_id':a.toString()
+        'course_id': a.toString()
       }, headers: {
         'Authorization': 'Bearer $token'
       });
@@ -211,7 +217,8 @@ class _BuyClickScreenState extends State<BuyClickScreen> {
         });
         openCheckout();
       } else {
-       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content:Text('Please fill all the forms')));
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: Text('Please fill all the forms')));
       }
     } catch (e) {
       print(e);
@@ -262,10 +269,11 @@ class _BuyClickScreenState extends State<BuyClickScreen> {
       if (res.statusCode == 200) {
         print(res.body);
 
-        Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (b)=>PaymentSuccessScreen()));
+        Navigator.of(context).pushReplacement(
+            MaterialPageRoute(builder: (b) => PaymentSuccessScreen()));
 
         //Navigator.pop(context);
-      }else{
+      } else {
         print(res.body.toString());
       }
     } catch (error) {

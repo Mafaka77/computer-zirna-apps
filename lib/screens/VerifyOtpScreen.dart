@@ -154,7 +154,7 @@ class _VerifyOtpState extends State<VerifyOtp> {
       // ));
     } else {
       ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text('Please Enter Phone Number')));
+          .showSnackBar(SnackBar(content: Text('Check OTP')));
     }
   }
 

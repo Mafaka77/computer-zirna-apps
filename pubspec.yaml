@@ -38,6 +38,7 @@ dependencies:
   webview_flutter: ^2.0.10
   open_file: ^3.2.1
   flutter_windowmanager: ^0.1.0
+  double_back_to_close_app: ^2.0.1
   flutter:
     sdk: flutter
 
