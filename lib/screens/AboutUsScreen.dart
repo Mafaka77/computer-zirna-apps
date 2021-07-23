@@ -18,12 +18,7 @@ class _AboutUsState extends State<AboutUs> {
       appBar: AppBar(
         title: Text('About Us'),
       ),
-      body: DoubleBackToCloseApp(
-        snackBar: const SnackBar(
-          content: Text('Press back button again to exit!!!'),
-          duration: Duration(milliseconds: 400),
-        ),
-        child: SingleChildScrollView(
+      body: SingleChildScrollView(
           child: Container(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -71,7 +66,7 @@ class _AboutUsState extends State<AboutUs> {
                             color: Colors.greenAccent,
                           ),
                           const Text(
-                            ' 9089527410',
+                            ' 9362636870',
                             style: TextStyle(fontSize: 15),
                           )
                         ],
@@ -122,7 +117,6 @@ class _AboutUsState extends State<AboutUs> {
               ],
             ),
           ),
-        ),
       ),
     );
   }

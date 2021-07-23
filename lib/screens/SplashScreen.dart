@@ -28,7 +28,7 @@ class _SplashScreenState extends State<SplashScreen> {
           children: [
             Container(
               child: Text(
-                'CITY COMPUTER CENTER',
+                'CITY COMPUTER CENTRE',
                 style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
               ),
             ),

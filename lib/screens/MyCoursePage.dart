@@ -56,12 +56,7 @@ class _MyCoursePageState extends State<MyCoursePage> {
         title: Text('My Course'),
         automaticallyImplyLeading: false,
       ),
-      body: DoubleBackToCloseApp(
-        snackBar: const SnackBar(
-          content: Text('Press back button again to exit!!'),
-          duration: Duration(milliseconds: 400),
-        ),
-        child: Container(
+      body: Container(
             child: FutureBuilder(
           future: courses,
           builder: (BuildContext context, AsyncSnapshot snapshot) {
@@ -87,7 +82,6 @@ class _MyCoursePageState extends State<MyCoursePage> {
             );
           },
         )),
-      ),
     );
   }
 }

@@ -248,7 +248,7 @@ class _CourseDetailState extends State<CourseDetailScreen> {
                   margin: EdgeInsets.only(top: 10),
                   width: MediaQuery.of(context).size.width,
                   height: 3,
-                  color: Colors.blueAccent,
+                  color: Color.fromRGBO(25, 0, 51, 230.0),
                 ),
                 Container(
                   margin: EdgeInsets.only(top: 10),
@@ -265,7 +265,7 @@ class _CourseDetailState extends State<CourseDetailScreen> {
                   margin: EdgeInsets.only(top: 10),
                   width: MediaQuery.of(context).size.width,
                   height: 3,
-                  color: Colors.blueAccent,
+                  color: Color.fromRGBO(25, 0, 51, 230.0),
                 ),
                 Container(
                   margin: EdgeInsets.only(top: 10),

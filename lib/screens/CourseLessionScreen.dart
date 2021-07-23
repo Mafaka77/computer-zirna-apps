@@ -201,7 +201,7 @@ class _MyLessionState extends State<MyLession> {
                   margin: EdgeInsets.only(top: 10),
                   height: 3,
                   width: MediaQuery.of(context).size.width,
-                  color: Colors.amberAccent,
+                  color: Color.fromRGBO(25, 0, 51, 230.0),
                 ),
                 Container(
                   child: FutureBuilder(

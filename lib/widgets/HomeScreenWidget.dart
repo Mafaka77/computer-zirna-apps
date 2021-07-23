@@ -104,6 +104,7 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget> {
 
   @override
   void initState() {
+    _carData();
     _adsData();
     courseList = _courseList();
     super.initState();
@@ -117,7 +118,6 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
-              color: Colors.greenAccent,
               child: FutureBuilder(
                   future: _carData(),
                   builder: (c, snapshot) {
@@ -128,6 +128,7 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget> {
                           child: Carousel(
                             images: slider,
                             boxFit: BoxFit.cover,
+                            autoplay: false,
                             animationCurve: Curves.bounceInOut,
                             animationDuration: Duration(milliseconds: 1000),
                             showIndicator: false,
@@ -151,7 +152,7 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget> {
           Container(
             width: MediaQuery.of(context).size.width,
             height: 3,
-            color: Colors.redAccent,
+            color: Color.fromRGBO(25, 0, 51, 230.0),
           ),
           Container(
               margin: new EdgeInsets.only(top: 10),
@@ -206,7 +207,7 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget> {
             margin: EdgeInsets.only(),
             height: 3,
             width: MediaQuery.of(context).size.width,
-            color: Colors.amberAccent,
+              color: Color.fromRGBO(25, 0, 51, 230.0),
           ),
           Container(
             height: 200,

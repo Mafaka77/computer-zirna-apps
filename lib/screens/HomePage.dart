@@ -200,7 +200,7 @@ class _HomePageState extends State<HomePage> {
               child: IconButton(
                 onPressed: () => _scaffoldKey.currentState!.openEndDrawer(),
                 icon: Icon(
-                  FontAwesome5.user_circle,
+                  FontAwesome.user,
                   color: Colors.redAccent,
                 ),
               )),
@@ -209,14 +209,9 @@ class _HomePageState extends State<HomePage> {
         backgroundColor: Colors.transparent,
         elevation: 0.0,
       ),
-      body: DoubleBackToCloseApp(
-        snackBar:const SnackBar(
-          content: Text('Press Back Button Again to Exit the App'),
-          duration: Duration(milliseconds: 500),
-        ),
-          child: SingleChildScrollView(
+      body: SingleChildScrollView(
         child: HomeScreenWidget(),
-      )),
+      ),
     );
   }
 }

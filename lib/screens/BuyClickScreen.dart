@@ -114,31 +114,6 @@ class _BuyClickScreenState extends State<BuyClickScreen> {
               ),
               Container(
                 margin: EdgeInsets.only(bottom: 15),
-                child: Row(
-                  children: [
-                    Container(
-                      width: MediaQuery.of(context).size.width - 80,
-                      child: TextField(
-                        controller: _dobController,
-                        decoration: InputDecoration(
-                          labelText: 'Enter Date of Birth',
-                          hintText: '0000-00-00',
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                        ),
-                      ),
-                    ),
-                    IconButton(
-                        onPressed: () {
-                          _selectDate(context);
-                        },
-                        icon: Icon(Icons.calendar_today_outlined))
-                  ],
-                ),
-              ),
-              Container(
-                margin: EdgeInsets.only(bottom: 15),
                 child: TextField(
                   controller: _addressController,
                   decoration: InputDecoration(
@@ -167,18 +142,6 @@ class _BuyClickScreenState extends State<BuyClickScreen> {
                   ),
                 ),
               ),
-              Container(
-                margin: EdgeInsets.only(top: 15),
-                child: const Text('Important Notes:'),
-              ),
-              ListTile(
-                title: const Text(
-                    '1. He Course hi vawi 1 i lei hian Kum 1 zel a dam a ni.'),
-              ),
-              ListTile(
-                title: const Text(
-                    '2. Exam form fill up hun tur information in pek a ni ang.'),
-              ),
             ],
           ),
         ),
@@ -200,7 +163,6 @@ class _BuyClickScreenState extends State<BuyClickScreen> {
       final response = await http.post(url, body: {
         'full_name': fullName,
         'father_name': fatherName,
-        'dob': dob,
         'address': address,
         'course_id': a.toString()
       }, headers: {
