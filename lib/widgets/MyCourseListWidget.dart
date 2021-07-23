@@ -86,6 +86,12 @@ class _MyCourseListState extends State<MyCourseList> {
         ),
         children: [
           Container(
+            child: Text(
+              'SUBJECT LIST',
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            ),
+          ),
+          Container(
             child: new FutureBuilder(
               future: subjects,
               builder: (BuildContext context, AsyncSnapshot snapshot) {
@@ -114,8 +120,10 @@ class _MyCourseListState extends State<MyCourseList> {
                                 },
                                 title: Text(snapshot.data[i].title),
                                 subtitle: Text(snapshot.data[i].description),
-                                trailing:
-                                    Icon(FontAwesome.arrow_circle_right,color: Colors.redAccent,),
+                                trailing: Icon(
+                                  FontAwesome.chevron_right,
+                                  color: Colors.redAccent,
+                                ),
                               ),
                             ),
                           )

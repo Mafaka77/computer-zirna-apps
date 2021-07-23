@@ -8,6 +8,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import '../widgets/CourseDetailWidget.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class Data {
   final int id;
@@ -191,12 +192,11 @@ class _CourseDetailState extends State<CourseDetailScreen> {
                 player,
                 Container(
                   margin: EdgeInsets.only(top: 10),
-                  child: Text('₹  ${widget.price.toString()}',
+                  child: Text('₹ ${widget.price.toString()}',
                       // style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
-                      style:
-                          TextStyle(fontSize: 30, fontWeight: FontWeight.bold)
-                      // GoogleFonts.saira(fontSize: 30,fontWeight: FontWeight.bold),
-                      ),
+                      style: GoogleFonts.saira(
+                        fontSize: 30),
+                  ),
                 ),
                 Container(
                   width: 500,

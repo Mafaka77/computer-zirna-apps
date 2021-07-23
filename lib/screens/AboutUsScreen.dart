@@ -2,7 +2,6 @@ import 'package:computer_zirna/screens/PrivacyPolicyScreen.dart';
 import 'package:computer_zirna/screens/TermsScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
-import 'package:double_back_to_close_app/double_back_to_close_app.dart';
 
 class AboutUs extends StatefulWidget {
   const AboutUs({Key? key}) : super(key: key);

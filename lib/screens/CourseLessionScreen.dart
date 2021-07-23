@@ -215,7 +215,7 @@ class _MyLessionState extends State<MyLession> {
                           itemBuilder: (c, i) => Container(
                             margin: EdgeInsets.only(top: 10),
                             color: tabbedIndex == i
-                                ? Colors.lightBlueAccent
+                                ? Colors.black12
                                 : null,
                             child: ListTile(
                               onTap: () {
@@ -226,10 +226,21 @@ class _MyLessionState extends State<MyLession> {
                               },
                               title: Text(snapshot.data[i].title),
                               subtitle: Text(snapshot.data[i].description),
-                              trailing: Icon(
-                                Icons.play_circle,
-                                color: Colors.redAccent,
-                              ),
+                              trailing: IconButton(
+                                icon: Icon(
+                                  tabbedIndex==i&&_controller.value.isPlaying?Icons.pause_circle:Icons.play_circle,color: Colors.black,
+                                ),
+                                onPressed: _isPlayerReady ? (){
+                                  tabbedIndex==i&&_controller.value.isPlaying?_controller.pause():_controller.play();
+                                  setState(() {
+
+                                  });
+                                }:null,
+                              )
+                              // tabbedIndex!=i? Icon(
+                              //   Icons.play_circle,
+                              //   color: Colors.redAccent,
+                              // ):Icon(Icons.pause_circle,color: Colors.redAccent,),
                             ),
                           ),
                         );
