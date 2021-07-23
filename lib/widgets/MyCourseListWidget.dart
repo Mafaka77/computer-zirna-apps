@@ -115,7 +115,7 @@ class _MyCourseListState extends State<MyCourseList> {
                                 title: Text(snapshot.data[i].title),
                                 subtitle: Text(snapshot.data[i].description),
                                 trailing:
-                                    Icon(FontAwesome5.arrow_alt_circle_right),
+                                    Icon(FontAwesome.arrow_circle_right,color: Colors.redAccent,),
                               ),
                             ),
                           )
