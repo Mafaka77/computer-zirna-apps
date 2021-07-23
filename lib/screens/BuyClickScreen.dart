@@ -190,7 +190,7 @@ class _BuyClickScreenState extends State<BuyClickScreen> {
 
   void openCheckout() async {
     var options = {
-      'key': 'rzp_live_Pwezzwm3noTCIt',
+      'key': 'rzp_live_pjBr6J5cGcQG2F',
       'amount': 2000,
       'name': 'Computer zirna',
       'order_id': order_id,
