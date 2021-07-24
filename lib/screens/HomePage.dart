@@ -114,10 +114,11 @@ class _HomePageState extends State<HomePage> {
                         child: TextButton(
                           onPressed: () {
                             storage.delete(key: 'token');
-                            Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (builder) => Login()));
+                            // Navigator.pushReplacement(
+                            //     context,
+                            //     MaterialPageRoute(
+                            //         builder: (builder) => Login()));
+                            Navigator.pushNamedAndRemoveUntil(context, 'login', (route) => false);
                           },
                           child: Text('Logout'),
                           style: ButtonStyle(

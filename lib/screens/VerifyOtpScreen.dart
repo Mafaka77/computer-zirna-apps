@@ -187,9 +187,7 @@ class _VerifyOtpState extends State<VerifyOtp> {
       storage.write(key: 'token', value: decode['data'].toString());
       // var b=await storage.read(key: 'token');
       // print(b);
-      Navigator.of(context).pushReplacement(MaterialPageRoute(
-        builder: (c) => MainScreen(),
-      ));
+      Navigator.pushNamedAndRemoveUntil(context, 'main', (route) => false);
     } else {
       return null;
     }

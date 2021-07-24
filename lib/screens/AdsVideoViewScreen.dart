@@ -22,6 +22,7 @@ class AdsVideoView extends StatefulWidget {
 }
 
 class _AdsVideoViewState extends State<AdsVideoView> {
+  bool fullScreen=false;
   late YoutubePlayerController _controller;
   late TextEditingController _idController;
   late TextEditingController _seekToController;
@@ -55,6 +56,7 @@ class _AdsVideoViewState extends State<AdsVideoView> {
         return YoutubePlayerController(
             initialVideoId: videoID,
             flags: const YoutubePlayerFlags(
+              forceHD: true,
               disableDragSeek: true,
               autoPlay: false,
               hideControls: true,
@@ -95,7 +97,7 @@ class _AdsVideoViewState extends State<AdsVideoView> {
         disableDragSeek: false,
         loop: false,
         isLive: false,
-        forceHD: false,
+        forceHD: true,
         enableCaption: true,
       ),
     )..addListener(listener);
@@ -133,10 +135,14 @@ class _AdsVideoViewState extends State<AdsVideoView> {
 
   @override
   Widget build(BuildContext context) {
+
     return YoutubePlayerBuilder(
       // onExitFullScreen: (){
       //   SystemChrome.setPreferredOrientations(DeviceOrientation.values);
       // },
+      onEnterFullScreen: (){
+        this.fullScreen=true;
+      },
       player: YoutubePlayer(
         thumbnail: Center(
           child: Icon(FontAwesome.play_circle),

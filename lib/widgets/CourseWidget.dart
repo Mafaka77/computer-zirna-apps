@@ -16,9 +16,12 @@ class CourseWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        Navigator.of(context).push(MaterialPageRoute(
+        Navigator.of(context).push(
+          MaterialPageRoute(
             builder: (ctx) =>
-                CourseDetailScreen(id, name, price, description, intro_url)));
+                CourseDetailScreen(id, name, price, description, intro_url),
+          ),
+        );
       },
       child: GridTile(
         child: Image.network(

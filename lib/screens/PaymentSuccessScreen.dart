@@ -42,11 +42,7 @@ class _PaymentSuccessScreenState extends State<PaymentSuccessScreen> {
                   width: 250,
                   child: TextButton(
                     onPressed: () {
-                      Navigator.of(context).pushReplacement(
-                        MaterialPageRoute(
-                          builder: (builder) => MainScreen(),
-                        ),
-                      );
+                      Navigator.pushNamedAndRemoveUntil(context, 'main', (route) => false);
                     },
                     child: Text(
                       'Return to Home',

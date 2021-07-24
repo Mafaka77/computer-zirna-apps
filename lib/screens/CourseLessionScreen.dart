@@ -138,6 +138,26 @@ class _MyLessionState extends State<MyLession> {
 
     print(youtube_id);
   }
+  Widget _text(String title, String value) {
+    return RichText(
+      text: TextSpan(
+        text: '$title : ',
+        style: const TextStyle(
+          color: Colors.blueAccent,
+          fontWeight: FontWeight.bold,
+        ),
+        children: [
+          TextSpan(
+            text: value,
+            style: const TextStyle(
+              color: Colors.blueAccent,
+              fontWeight: FontWeight.w300,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -184,7 +204,7 @@ class _MyLessionState extends State<MyLession> {
             ),
           ),
         ),
-        body: SingleChildScrollView(
+        body: SafeArea(
           child: Container(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -203,56 +223,61 @@ class _MyLessionState extends State<MyLession> {
                   width: MediaQuery.of(context).size.width,
                   color: Color.fromRGBO(25, 0, 51, 230.0),
                 ),
-                Container(
-                  child: FutureBuilder(
-                    future: courses,
-                    builder: (BuildContext context, AsyncSnapshot snapshot) {
-                      if (snapshot.hasData) {
-                        return ListView.builder(
-                          itemCount: snapshot.data.length,
-                          shrinkWrap: true,
-                          physics: NeverScrollableScrollPhysics(),
-                          itemBuilder: (c, i) => Container(
-                            margin: EdgeInsets.only(top: 10),
-                            color: tabbedIndex == i
-                                ? Colors.black12
-                                : null,
-                            child: ListTile(
-                              onTap: () {
-                                setState(() {
-                                  tabbedIndex = i;
-                                  clickVids(snapshot.data[i].video_url);
-                                });
-                              },
-                              title: Text(snapshot.data[i].title),
-                              subtitle: Text(snapshot.data[i].description),
-                              trailing: IconButton(
-                                icon: Icon(
-                                  tabbedIndex==i&&_controller.value.isPlaying?Icons.pause_circle:Icons.play_circle,color: Colors.black,
-                                ),
-                                onPressed: _isPlayerReady ? (){
-                                  tabbedIndex==i&&_controller.value.isPlaying?_controller.pause():_controller.play();
+                Expanded(
+                  child: Container(
+                    // height: MediaQuery.of(context).size.height /1.9,
+                    margin: EdgeInsets.only(bottom: 50),
+                    child: FutureBuilder(
+                      future: courses,
+                      builder: (BuildContext context, AsyncSnapshot snapshot) {
+                        if (snapshot.hasData) {
+                          return ListView.builder(
+                            scrollDirection: Axis.vertical,
+                            itemCount: snapshot.data.length,
+                            shrinkWrap: true,
+                         //physics: NeverScrollableScrollPhysics(),
+                            itemBuilder: (c, i) => Container(
+                              margin: EdgeInsets.only(top: 10),
+                              color: tabbedIndex == i
+                                  ? Colors.black12
+                                  : null,
+                              child: ListTile(
+                                onTap: () {
                                   setState(() {
-
+                                    tabbedIndex = i;
+                                    clickVids(snapshot.data[i].video_url);
                                   });
-                                }:null,
-                              )
-                              // tabbedIndex!=i? Icon(
-                              //   Icons.play_circle,
-                              //   color: Colors.redAccent,
-                              // ):Icon(Icons.pause_circle,color: Colors.redAccent,),
+                                },
+                                title: Text(snapshot.data[i].title),
+                                subtitle: Text(snapshot.data[i].description),
+                                trailing: IconButton(
+                                  icon: Icon(
+                                    tabbedIndex==i&&_controller.value.isPlaying?Icons.pause_circle:Icons.play_circle,color: Colors.black,
+                                  ),
+                                  onPressed: _isPlayerReady ? (){
+                                    tabbedIndex==i&&_controller.value.isPlaying?_controller.pause():_controller.play();
+                                    setState(() {
+
+                                    });
+                                  }:null,
+                                )
+                                // tabbedIndex!=i? Icon(
+                                //   Icons.play_circle,
+                                //   color: Colors.redAccent,
+                                // ):Icon(Icons.pause_circle,color: Colors.redAccent,),
+                              ),
                             ),
-                          ),
-                        );
-                      } else if (snapshot.hasError) {
+                          );
+                        } else if (snapshot.hasError) {
+                          return Center(
+                            child: Text('No Internet'),
+                          );
+                        }
                         return Center(
-                          child: Text('No Internet'),
+                          child: CircularProgressIndicator(),
                         );
-                      }
-                      return Center(
-                        child: CircularProgressIndicator(),
-                      );
-                    },
+                      },
+                    ),
                   ),
                 ),
               ],

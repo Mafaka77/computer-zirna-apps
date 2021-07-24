@@ -11,9 +11,9 @@ import '../screens/PaymentSuccessScreen.dart';
 
 class BuyClickScreen extends StatefulWidget {
   // const BuyClickScreen({Key? key}) : super(key: key);
-  final int id;
-
-  BuyClickScreen(this.id);
+  // final int id;
+  //
+  // BuyClickScreen(this.id);
 
   @override
   _BuyClickScreenState createState() => _BuyClickScreenState();
@@ -131,7 +131,7 @@ class _BuyClickScreenState extends State<BuyClickScreen> {
                   child: TextButton(
                     onPressed: () => {submit()},
                     child: const Text(
-                      'Proceed to Checkout',
+                      'Proceed to Pay',
                       style: TextStyle(fontSize: 20),
                     ),
                     style: ButtonStyle(
@@ -150,7 +150,11 @@ class _BuyClickScreenState extends State<BuyClickScreen> {
   }
 
   void submit() async {
-    var a = this.widget.id;
+    final routeArgs =
+        ModalRoute.of(context)!.settings.arguments as Map<String, int>;
+    final id = routeArgs['id'];
+    print(id);
+    var a = id;
     try {
       // print('hello');
       String fullName = _fullNameController.text;
@@ -179,8 +183,11 @@ class _BuyClickScreenState extends State<BuyClickScreen> {
         });
         openCheckout();
       } else {
-        ScaffoldMessenger.of(context)
-            .showSnackBar(SnackBar(content: Text('Please fill all the forms')));
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(response.body),
+          ),
+        );
       }
     } catch (e) {
       print(e);

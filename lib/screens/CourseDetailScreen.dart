@@ -231,9 +231,14 @@ class _CourseDetailState extends State<CourseDetailScreen> {
                             style: TextStyle(fontSize: 20, color: Colors.black),
                           ),
                           onPressed: () => {
-                            Navigator.of(context).push(MaterialPageRoute(
-                                builder: (builder) =>
-                                    BuyClickScreen(this.widget.id)))
+                            Navigator.of(context).pushNamed(
+                                // MaterialPageRoute(
+                                // builder: (builder) =>
+                                //     BuyClickScreen(this.widget.id))
+                              '/buy-screen',arguments: {
+                                'id':this.widget.id
+                            }
+                            ),
                           },
                         ),
                 ),
