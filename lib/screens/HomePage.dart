@@ -1,7 +1,10 @@
+import 'package:computer_zirna/Providers/ThemeProvider.dart';
 import 'package:computer_zirna/screens/LoginScreen.dart';
 import 'package:computer_zirna/screens/MyCoursePage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+import 'package:theme_mode_handler/theme_mode_handler.dart';
+import 'package:theme_mode_handler/theme_picker_dialog.dart';
 import '../widgets/HomeScreenWidget.dart';
 import 'dart:io';
 import 'dart:async';
@@ -10,6 +13,7 @@ import 'package:http/http.dart' as http;
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 import 'package:flutter/rendering.dart';
+import 'package:provider/provider.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -84,8 +88,15 @@ class _HomePageState extends State<HomePage> {
     _myData();
   }
 
+  void _selectThemeMode(BuildContext context) async {
+    final newThemeMode = await showThemePickerDialog(context: context);
+    print(newThemeMode);
+  }
+
   @override
   Widget build(BuildContext context) {
+    // final themeProvide = Provider.of<ThemeProvider>(context);
+    final themeMode = ThemeModeHandler.of(context)?.themeMode;
     return Scaffold(
       key: _scaffoldKey,
       endDrawer: new Drawer(
@@ -95,22 +106,50 @@ class _HomePageState extends State<HomePage> {
               color: Colors.greenAccent,
               child: DrawerHeader(
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    Row(
+                      children: [
+                        Container(
+                          child: Text('Dark/Light Mode:'),
+                        ),
+                        Container(
+                          // child: Switch.adaptive(
+                          //   activeColor: Colors.black12,
+                          //   // value: themeProvide.isDarkMode,
+                          //   onChanged: (value) {
+                          //     // final provider = Provider.of<ThemeProvider>(
+                          //     //     context,
+                          //     //     listen: false);
+                          //     // provider.toggleTheme(value);
+                          //     _selectThemeMode(context);
+                          //   },
+                          // ),
+                          child: IconButton(
+                            onPressed: (){
+                              _selectThemeMode(context);
+                            },
+                            icon: Icon(Icons.wb_sunny,color: Colors.redAccent,),
+                          ),
+                        ),
+                      ],
+                    ),
                     Container(
-                      margin: EdgeInsets.only(top: 10),
+                      //margin: EdgeInsets.only(top: 10),
                       child: Text(
-                        'Welcome',
+                        'Welcome:' + mobile,
                         style: TextStyle(fontSize: 20),
                       ),
                     ),
-                    Container(
-                      child: Text(
-                        mobile,
-                        style: TextStyle(fontSize: 30),
-                      ),
-                    ),
-                    Container(
-                        width: 120,
+                    // Container(
+                    //   child: Text(
+                    //     mobile,
+                    //     style: TextStyle(fontSize: 20),
+                    //   ),
+                    // ),
+                    Center(
+                      child: Container(
+                        width: 200,
                         child: TextButton(
                           onPressed: () {
                             storage.delete(key: 'token');
@@ -118,7 +157,8 @@ class _HomePageState extends State<HomePage> {
                             //     context,
                             //     MaterialPageRoute(
                             //         builder: (builder) => Login()));
-                            Navigator.pushNamedAndRemoveUntil(context, 'login', (route) => false);
+                            Navigator.pushNamedAndRemoveUntil(
+                                context, 'login', (route) => false);
                           },
                           child: Text('Logout'),
                           style: ButtonStyle(
@@ -126,7 +166,9 @@ class _HomePageState extends State<HomePage> {
                                   MaterialStateProperty.all(Colors.white),
                               backgroundColor:
                                   MaterialStateProperty.all(Colors.redAccent)),
-                        ))
+                        ),
+                      ),
+                    ),
                   ],
                 ),
               ),
@@ -177,7 +219,7 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ),
               ),
-            )
+            ),
           ],
         ),
       ),

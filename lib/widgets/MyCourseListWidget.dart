@@ -140,7 +140,7 @@ class _MyCourseListState extends State<MyCourseList> {
                   );
                 }
                 return Center(
-                  child: Text('No data'),
+                  child: CircularProgressIndicator(),
                 );
               },
             ),

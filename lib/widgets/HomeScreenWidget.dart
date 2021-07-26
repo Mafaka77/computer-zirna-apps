@@ -171,6 +171,7 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget> {
                               SliverGridDelegateWithFixedCrossAxisCount(
                                   crossAxisCount: 2,
                                   childAspectRatio: 3 / 2,
+                                  crossAxisSpacing: 10,
                                   mainAxisSpacing: 10),
                           itemCount: snapshot.data.length,
                           itemBuilder: (BuildContext context, int index) {
