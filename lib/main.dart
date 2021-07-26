@@ -1,6 +1,5 @@
 // @dart=2.9
 import 'package:computer_zirna/Providers/TemeModeManager.dart';
-import 'package:computer_zirna/Providers/ThemeProvider.dart';
 import 'package:computer_zirna/screens/BuyClickScreen.dart';
 import 'package:computer_zirna/screens/CourseDetailScreen.dart';
 import 'package:computer_zirna/screens/MainScreen.dart';
@@ -13,9 +12,6 @@ import 'screens/LoginScreen.dart';
 import 'screens/VerifyOtpScreen.dart';
 import './screens/MainScreen.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:theme_mode_handler/theme_mode_manager_interface.dart';
 String a;
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -29,28 +25,6 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // return  ChangeNotifierProvider(
-    //     create: (context)=>ThemeProvider(),
-    //     builder: (context,_){
-    //       final themeProvider = Provider.of<ThemeProvider>(context);
-    //       return MaterialApp(
-    //         debugShowCheckedModeBanner: false,
-    //         title: 'Computer zirna',
-    //         themeMode: themeProvider.themeMode,
-    //         theme: MyTheme.lightTheme,
-    //         darkTheme: MyTheme.darkTheme,
-    //         // home:Valid()
-    //         initialRoute: a==null?'login':'/',
-    //         routes: {
-    //           '/':(context)=>SplashScreen(),
-    //           'login':(context)=>Login(),
-    //           'splash':(context)=>PaymentSuccessScreen(),
-    //           'main':(context)=>MainScreen(),
-    //           '/buy-screen':(context)=>BuyClickScreen(),
-    //         },
-    //       );
-    //     },
-    // );
     return ThemeModeHandler(
          manager: ExampleThemeModeManager(),
         builder: (ThemeMode themeMode){

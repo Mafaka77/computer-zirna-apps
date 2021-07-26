@@ -1,4 +1,3 @@
-import 'package:computer_zirna/Providers/ThemeProvider.dart';
 import 'package:computer_zirna/screens/LoginScreen.dart';
 import 'package:computer_zirna/screens/MyCoursePage.dart';
 import 'package:flutter/material.dart';
@@ -95,7 +94,6 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    // final themeProvide = Provider.of<ThemeProvider>(context);
     final themeMode = ThemeModeHandler.of(context)?.themeMode;
     return Scaffold(
       key: _scaffoldKey,
@@ -114,17 +112,6 @@ class _HomePageState extends State<HomePage> {
                           child: Text('Dark/Light Mode:'),
                         ),
                         Container(
-                          // child: Switch.adaptive(
-                          //   activeColor: Colors.black12,
-                          //   // value: themeProvide.isDarkMode,
-                          //   onChanged: (value) {
-                          //     // final provider = Provider.of<ThemeProvider>(
-                          //     //     context,
-                          //     //     listen: false);
-                          //     // provider.toggleTheme(value);
-                          //     _selectThemeMode(context);
-                          //   },
-                          // ),
                           child: IconButton(
                             onPressed: (){
                               _selectThemeMode(context);
