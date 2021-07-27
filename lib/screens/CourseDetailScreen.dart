@@ -180,6 +180,7 @@ class _CourseDetailState extends State<CourseDetailScreen> {
         },
       ),
       builder: (context, player) => Scaffold(
+        resizeToAvoidBottomInset: false,
         appBar: AppBar(
           title: Text(widget.name),
         ),

@@ -2,6 +2,7 @@
 import 'package:computer_zirna/Providers/TemeModeManager.dart';
 import 'package:computer_zirna/screens/BuyClickScreen.dart';
 import 'package:computer_zirna/screens/CourseDetailScreen.dart';
+import 'package:computer_zirna/screens/HomePage.dart';
 import 'package:computer_zirna/screens/MainScreen.dart';
 import 'package:computer_zirna/screens/PaymentSuccessScreen.dart';
 import 'package:computer_zirna/screens/SplashScreen.dart';
@@ -46,6 +47,7 @@ class MyApp extends StatelessWidget {
               'splash':(context)=>PaymentSuccessScreen(),
               'main':(context)=>MainScreen(),
               '/buy-screen':(context)=>BuyClickScreen(),
+              '/home':(context)=>HomePage(),
             },
           );
         },

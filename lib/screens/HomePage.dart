@@ -96,6 +96,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     final themeMode = ThemeModeHandler.of(context)?.themeMode;
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       key: _scaffoldKey,
       endDrawer: new Drawer(
         child: ListView(
